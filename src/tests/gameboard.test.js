@@ -1,4 +1,5 @@
 import gameBoardFactory from "../modules/gameboard.js";
+import shipFactory from "../modules/ships-factory.js";
 
 describe("initialising a game board factory", () => {
   test("Check there are 10 elements in the array", () => {
@@ -13,11 +14,12 @@ describe("initialising a game board factory", () => {
     })
   });
 
-  // test("Create a ship on a set of coordinates", () => {
-  //   const testShip = shipFactory(3);
-  //   const gameBoard = gameBoardFactory();
-  //   testShip.push(gameBoard)
-  //   expect(testShip.length).toBe(
-  //    );
-  // });
+  test("Create a ship on a set of coordinates", () => {
+    // const testShip = shipFactory(3);
+    const gameBoard = gameBoardFactory(shipFactory);
+    gameBoard.placeShip(3,0,0)
+    expect(gameBoard.grid[0][0]).toBe("ship");
+    expect(gameBoard.grid[1][0]).toBe("ship");
+    expect(gameBoard.grid[2][0]).toBe("ship");
+  });
 });
