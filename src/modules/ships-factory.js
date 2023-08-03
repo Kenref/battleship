@@ -1,4 +1,4 @@
-function shipFactory(length) {
+export default function shipFactory(length) {
   return {
     length: length,
     hitTimes: 0,
@@ -9,5 +9,3 @@ function shipFactory(length) {
 }
 
 
-
-export {shipFactory}
