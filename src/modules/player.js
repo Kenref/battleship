@@ -1,9 +1,17 @@
-import gameBoardFactory from "./gameboard"
 
-export default function player() {
+export default function Player() {
   return {
-    attack: function() {
 
+    nextTurn: function () {
+      if (isPlayerTurn) {
+        isPlayerTurn = false
+      } else {
+        isPlayerTurn = true
+      }
+    },
+
+    attack: function(target,x,y) {
+      target.receiveAttack(x,y)
     }
   }
 
