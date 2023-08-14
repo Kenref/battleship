@@ -1,12 +1,22 @@
-export default function gameBoardFactory(ship) {
+export default function gameBoardFactory(ship, board) {
   let grid = new Array(10).fill(null).map(() => new Array(10).fill("empty"))
   let shipsArray = []
+  grid.forEach((row, rowIndex) => {
+    row.forEach((cell, colIndex) => {
+      const cellElement = document.createElement("div")
+      cellElement.classList.add("cell")
+      if (cell === "ship") {
+        cellElement.classList.add("ship")
+      } else if (cell === "hit") {
+        cellElement.classList.add("hit");
+      } else if (cell === "miss") {
+        cellElement.classList.add("miss");
+      }
+      board.appendChild(cellElement)
+    })
+  })
 
-  return {
-    grid: grid,
-    shipsArray: shipsArray,
-
-    placeShip: function (length, x, y) {
+    function placeShip (length, x, y) {
       let newShip = ship(length)
       shipsArray.push(newShip)
       for (let i = 0; i < newShip.length; i++) {
@@ -15,9 +25,9 @@ export default function gameBoardFactory(ship) {
       return newShip
       // allow ships to be placed horizontally or vertically
       // ships cannot be placed if they are longer than board e.g. on the edge
-    },
+    }
 
-    receiveAttack: function(x, y) {
+      function receiveAttack(x, y) {
       if (grid[x][y] === "ship") {
         grid[x][y] = "hit"
         return "hit"
@@ -25,11 +35,19 @@ export default function gameBoardFactory(ship) {
         grid[x][y] = "miss"
         return "miss"
       }
-    },
+    }
 
-    checkSunkAll: function () {
+    function checkSunkAll() {
       return shipsArray.every((ship) => ship.isSunk())
-    },
+    }
+  
+  
+  return {
+    grid: grid,
+    shipsArray: shipsArray,
+    placeShip: placeShip,
+    receiveAttack: receiveAttack,
+    checkSunkAll: checkSunkAll
 
   }
 }
