@@ -28,3 +28,4 @@ aiBoard.placeShip(3, 6, 2);
 aiBoard.placeShip(4, 4, 6);
 
 player.attack(aiBoard, true, 1, 1)
+ai.attack(playerBoard, false)

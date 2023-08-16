@@ -1,3 +1,5 @@
+import gameBoardFactory from "./gameboard";
+
 function getRandomInt(min, max) {
   min = Math.ceil(min);
   max = Math.floor(max);
@@ -14,7 +16,7 @@ export default function Player(isPlayerTurn) {
   }
 
   function attack(
-    target=aiBoard,
+    target,
     isPlayerTurn,
     x = getRandomInt(0, 10),
     y = getRandomInt(0, 10),

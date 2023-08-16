@@ -6,8 +6,6 @@ export default function shipFactory(length) {
     return (this.length === this.hitTimes) ? true : false
   }
 
-
-
   return {
     length: length,
     hitTimes: 0,
