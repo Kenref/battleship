@@ -1,8 +1,14 @@
 export default function gameBoardFactory(ship, board) {
   let grid = new Array(10).fill(null).map(() => new Array(10).fill("empty"))
   let shipsArray = []
-  grid.forEach((row, rowIndex) => {
-    row.forEach((cell, colIndex) => {
+
+  function updateBoard() {
+    
+  }
+
+
+  grid.forEach((row) => {
+    row.forEach((cell) => {
       const cellElement = document.createElement("div")
       cellElement.classList.add("cell")
       if (cell === "ship") {
@@ -20,7 +26,9 @@ export default function gameBoardFactory(ship, board) {
       let newShip = ship(length)
       shipsArray.push(newShip)
       for (let i = 0; i < newShip.length; i++) {
-        grid[x+i][y] = "ship";
+        grid[x + i][y] = "ship";
+        const cellElement = board.children[x*10+y+i]
+        cellElement.classList.add("ship")
       }
       return newShip
       // allow ships to be placed horizontally or vertically

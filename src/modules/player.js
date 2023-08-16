@@ -5,7 +5,7 @@ function getRandomInt(min, max) {
 }
 
 export default function Player(isPlayerTurn) {
-    function nextTurn () {
+  function nextTurn() {
     if (isPlayerTurn) {
       isPlayerTurn = false;
     } else {
@@ -13,23 +13,21 @@ export default function Player(isPlayerTurn) {
     }
   }
 
-  function attack (
-      target,
-      isPlayerTurn,
-      x = getRandomInt(0, 10),
-      y = getRandomInt(0, 10),
-    ) {
-      if (isPlayerTurn) {
-        target.receiveAttack(x, y);
-      } else {
-        target.receiveAttack(getRandomInt(0, 10), getRandomInt(0, 10));
-      }
+  function attack(
+    target=aiBoard,
+    isPlayerTurn,
+    x = getRandomInt(0, 10),
+    y = getRandomInt(0, 10),
+  ) {
+    if (isPlayerTurn) {
+      target.receiveAttack(x, y);
+    } else {
+      target.receiveAttack(getRandomInt(0, 10), getRandomInt(0, 10));
+    }
   }
-  
-  
+
   return {
     nextTurn: nextTurn,
-    attack: attack
-    
+    attack: attack,
   };
 }

@@ -17,4 +17,14 @@ const ai = Player();
 let playerAttacks = []
 let aiAttacks = []
 
+playerBoard.placeShip(1, 8, 4);
+playerBoard.placeShip(2, 6, 7);
+playerBoard.placeShip(3, 4, 2);
+playerBoard.placeShip(4, 6, 2);
 
+aiBoard.placeShip(1, 1, 1)
+aiBoard.placeShip(2, 8, 8);
+aiBoard.placeShip(3, 6, 2);
+aiBoard.placeShip(4, 4, 6);
+
+player.attack(aiBoard, true, 1, 1)
