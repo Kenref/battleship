@@ -7,8 +7,19 @@ function getRandomInt(min, max) {
 }
 
 export default function Player(isPlayerTurn) {
-  function nextTurn() {
+  function nextTurn(playerBoard, aiBoard) {
+    if (playerBoard.checkSunkAll() || aiBoard.checkSunkAll()) {
+      alert("game over")
+      return
+    }
     if (isPlayerTurn) {
+      const aiGrid = document.querySelector(".player")
+      aiGrid.addEventListener("click", function (e) {
+        const x = parseInt(e.target.dataset.row, 10)
+        const y = parseInt(e.target.dataset.col, 10)
+        player.attack(ai, true,)
+        //change this
+      })
       isPlayerTurn = false;
     } else {
       isPlayerTurn = true;
@@ -17,7 +28,7 @@ export default function Player(isPlayerTurn) {
 
   function attack(
     target,
-    isPlayerTurn,
+    isPlayerTurn=isPlayerTurn,
     x = getRandomInt(0, 10),
     y = getRandomInt(0, 10),
   ) {

@@ -1,31 +1,26 @@
-import shipFactory from "./modules/ships-factory.js";
 import gameBoardFactory from "./modules/gameboard.js";
 import Player from "./modules/player.js";
 import "./style.css"
+import Game from "./modules/game.js";
 
-let gameContainer = document.getElementById("game-container");
-let playerGrid = document.querySelector(".player");
-let aiGrid = document.querySelector(".ai");
+const game = Game(gameBoardFactory, Player)
 
-let isPlayerTurn = true
 
-const playerBoard = gameBoardFactory(shipFactory, playerGrid);
-const aiBoard = gameBoardFactory(shipFactory, aiGrid);
-const player = Player();
-const ai = Player();
 
-let playerAttacks = []
-let aiAttacks = []
 
-playerBoard.placeShip(1, 8, 4);
-playerBoard.placeShip(2, 6, 7);
-playerBoard.placeShip(3, 4, 2);
-playerBoard.placeShip(4, 6, 2);
 
-aiBoard.placeShip(1, 1, 1)
-aiBoard.placeShip(2, 8, 8);
-aiBoard.placeShip(3, 6, 2);
-aiBoard.placeShip(4, 4, 6);
 
-player.attack(aiBoard, true, 1, 1)
-ai.attack(playerBoard, false)
+game.playerBoard.placeShip(1, 8, 4);
+game.playerBoard.placeShip(2, 6, 7);
+game.playerBoard.placeShip(3, 4, 2);
+game.playerBoard.placeShip(4, 6, 2);
+
+game.aiBoard.placeShip(1, 1, 1)
+game.aiBoard.placeShip(2, 8, 8);
+game.aiBoard.placeShip(3, 6, 2);
+game.aiBoard.placeShip(4, 4, 6);
+
+// game.player.attack(aiBoard, true, 1, 1)
+// game.ai.attack(playerBoard, false)
+
+// game.player.nextTurn(playerBoard, aiBoard, player, ai)

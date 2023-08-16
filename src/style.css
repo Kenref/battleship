@@ -13,9 +13,15 @@
   grid-template-rows: repeat(10, 1fr);
 }
 
+
+
 .cell {
 
   border: solid red 1px;
+}
+
+.cell:hover {
+  background-color: lightgrey;
 }
 
 .ship {

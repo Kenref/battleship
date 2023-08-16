@@ -4,9 +4,13 @@ export default function gameBoardFactory(ship, board) {
 
   function updateBoard() {
     board.innerHTML = "";
-    grid.forEach((row) => {
-      row.forEach((cell) => {
+    grid.forEach((row, rowIndex) => {
+      row.forEach((cell, colIndex) => {
         const cellElement = document.createElement("div");
+
+        cellElement.dataset.row = rowIndex
+        cellElement.dataset.col = colIndex
+
         cellElement.classList.add("cell");
         if (cell === "ship") {
           cellElement.classList.add("ship");
