@@ -9,17 +9,30 @@ export default function Game(gameBoardFactory, Player) {
   let gameState = {
     isPlayerTurn: true,
     isGameOver: false,
-    
+
     playerAttacks: [],
-    aiAttacks: []
-  }
+    aiAttacks: [],
+  };
 
   const playerBoard = gameBoardFactory(shipFactory, playerGrid);
   const aiBoard = gameBoardFactory(shipFactory, aiGrid);
-  const player = Player(playerBoard,aiBoard,gameState);
-  const ai = Player(playerBoard,aiBoard,gameState);
+  const player = Player(playerBoard, aiBoard, gameState);
+  const ai = Player(playerBoard, aiBoard, gameState);
 
 
+
+  function nextTurn() {
+    if (playerBoard.checkSunkAll() || aiBoard.checkSunkAll()) {
+      alert("game over");
+      gameState.isGameOver = true;
+      return gameState.isGameOver;
+    }
+    if(gameState.isPlayerTurn){
+      player.playerAttacks()
+    } else {
+      ai.aiAttacks()
+    }
+  }
 
   return {
     // isPlayerTurn: isPlayerTurn,
@@ -29,6 +42,6 @@ export default function Game(gameBoardFactory, Player) {
     playerBoard: playerBoard,
     aiBoard: aiBoard,
     player: player,
-    ai: ai
-  }
+    ai: ai,
+  };
 }
