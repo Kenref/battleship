@@ -1,4 +1,3 @@
-import gameBoardFactory from "./gameboard";
 
 function getRandomInt(min, max) {
   min = Math.ceil(min);
@@ -6,36 +5,42 @@ function getRandomInt(min, max) {
   return Math.floor(Math.random() * (max - min) + min);
 }
 
-export default function Player(isPlayerTurn) {
-  function nextTurn(playerBoard, aiBoard) {
+// function whosTurn() {
+//   let turn
+//   if (Game.isPlayerTurn) {
+//     turn = "player"
+//   } else {
+//     turn = "ai"
+//   }
+// }
+
+export default function Player(playerBoard,aiBoard,gameState) {
+  function nextTurn() {
     if (playerBoard.checkSunkAll() || aiBoard.checkSunkAll()) {
       alert("game over")
-      return
+      isGameOver = true
+      return isGameOver
     }
-    if (isPlayerTurn) {
-      const aiGrid = document.querySelector(".player")
+    if (gameState.isPlayerTurn) {
+      const aiGrid = document.querySelector(".ai")
       aiGrid.addEventListener("click", function (e) {
         const x = parseInt(e.target.dataset.row, 10)
         const y = parseInt(e.target.dataset.col, 10)
         player.attack(ai, true,)
         //change this
       })
-      isPlayerTurn = false;
+      gameState.isPlayerTurn = false;
     } else {
-      isPlayerTurn = true;
+      gameState.isPlayerTurn = true;
     }
   }
+  //check sunk all
 
-  function attack(
-    target,
-    isPlayerTurn=isPlayerTurn,
-    x = getRandomInt(0, 10),
-    y = getRandomInt(0, 10),
-  ) {
-    if (isPlayerTurn) {
-      target.receiveAttack(x, y);
+  function attack(x=getRandomInt(0,10),y=getRandomInt(0,10)) {
+    if (gameState.isPlayerTurn) {
+      aiBoard.receiveAttack(x, y);
     } else {
-      target.receiveAttack(getRandomInt(0, 10), getRandomInt(0, 10));
+      playerBoard.receiveAttack(x,y);
     }
   }
 

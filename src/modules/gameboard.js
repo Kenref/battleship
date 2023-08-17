@@ -51,12 +51,12 @@ export default function gameBoardFactory(ship, board) {
   }
 
   updateBoard()
-
   return {
     grid: grid,
     shipsArray: shipsArray,
     placeShip: placeShip,
     receiveAttack: receiveAttack,
     checkSunkAll: checkSunkAll, 
+    updateBoard: updateBoard
   };
 }
