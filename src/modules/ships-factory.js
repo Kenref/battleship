@@ -1,4 +1,4 @@
-export default function shipFactory(length) {
+export default function shipFactory(length,x,y) {
   function hit() {
     this.hitTimes += 1
   }
@@ -8,6 +8,7 @@ export default function shipFactory(length) {
 
   return {
     length: length,
+    location: { x, y },
     hitTimes: 0,
     hit: hit,
     isSunk: isSunk

@@ -25,10 +25,11 @@ export default function gameBoardFactory(ship, board) {
   }
 
   function placeShip(length, x, y) {
-    let newShip = ship(length);
+    let newShip = ship(length,x,y);
     shipsArray.push(newShip);
     for (let i = 0; i < newShip.length; i++) {
       grid[x + i][y] = "ship";
+      // grid[x + i][y] = newShip;
 
     }
     updateBoard()
@@ -47,7 +48,8 @@ export default function gameBoardFactory(ship, board) {
   }
 
   function checkSunkAll() {
-    console.log(shipsArray.every((ship) => ship.isSunk()));
+    // console.log(shipsArray)
+    // console.log(shipsArray.every((ship) => ship.isSunk()));
     return shipsArray.every((ship) => ship.isSunk());
   }
 

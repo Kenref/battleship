@@ -50,6 +50,7 @@ export default function Game(gameBoardFactory, Player) {
   aiGrid.addEventListener("click", (e) => {
     const x = parseInt(e.target.dataset.row);
     const y = parseInt(e.target.dataset.col);
+    console.log(e.target)
     player.playerAttacks(x, y)
     setTimeout(ai.aiAttacks, 500)
     nextTurn()
