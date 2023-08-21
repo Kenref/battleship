@@ -19,7 +19,20 @@ export default function Game(gameBoardFactory, Player) {
   const player = Player(playerBoard, aiBoard, gameState);
   const ai = Player(playerBoard, aiBoard, gameState);
 
-
+  // function nextTurn() {
+  //   if (playerBoard.checkSunkAll() || aiBoard.checkSunkAll()) {
+  //     alert("game over");
+  //     gameState.isGameOver = true;
+  //     return gameState.isGameOver;
+  //   }
+  //   if(gameState.isPlayerTurn = true){
+  //     player.playerAttacks()
+  //     gameState.isPlayerTurn = false
+  //   } else {
+  //     ai.aiAttacks()
+  //     gameState.isPlayerTurn = true
+  //   }
+  // }
 
   function nextTurn() {
     if (playerBoard.checkSunkAll() || aiBoard.checkSunkAll()) {
@@ -27,12 +40,20 @@ export default function Game(gameBoardFactory, Player) {
       gameState.isGameOver = true;
       return gameState.isGameOver;
     }
-    if(gameState.isPlayerTurn){
-      player.playerAttacks()
+    if (gameState.isPlayerTurn) {
+      gameState.isPlayerTurn = false;
     } else {
-      ai.aiAttacks()
+      gameState.isPlayerTurn = true;
     }
   }
+
+  aiGrid.addEventListener("click", (e) => {
+    const x = parseInt(e.target.dataset.row);
+    const y = parseInt(e.target.dataset.col);
+    player.playerAttacks(x, y)
+    setTimeout(ai.aiAttacks, 500)
+    nextTurn()
+  })
 
   return {
     // isPlayerTurn: isPlayerTurn,
@@ -43,5 +64,6 @@ export default function Game(gameBoardFactory, Player) {
     aiBoard: aiBoard,
     player: player,
     ai: ai,
+    nextTurn: nextTurn
   };
 }

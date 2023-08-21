@@ -20,9 +20,7 @@ game.aiBoard.placeShip(2, 8, 8);
 game.aiBoard.placeShip(3, 6, 2);
 game.aiBoard.placeShip(4, 4, 6);
 
-// game.player.attack(1, 1)
 // Game.nextTurn()
 
-// game.ai.attack()
 
 // game.player.nextTurn(playerBoard, aiBoard, player, ai)

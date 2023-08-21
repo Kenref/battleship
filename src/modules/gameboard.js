@@ -47,6 +47,7 @@ export default function gameBoardFactory(ship, board) {
   }
 
   function checkSunkAll() {
+    console.log(shipsArray.every((ship) => ship.isSunk()));
     return shipsArray.every((ship) => ship.isSunk());
   }
 
