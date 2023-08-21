@@ -16,7 +16,7 @@ export default function Player(playerBoard, aiBoard) {
   // }
 
   function playerAttacks(x,y) {
-    aiBoard.receiveAttack(x,y)
+    aiBoard.receiveAttack(x, y)
   }
 
   function aiAttacks(x = getRandomInt(), y = getRandomInt()) {

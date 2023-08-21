@@ -12,7 +12,7 @@ export default function gameBoardFactory(ship, board) {
         cellElement.dataset.col = colIndex
 
         cellElement.classList.add("cell");
-        if (cell === "ship") {
+        if (cell instanceof Object) {
           cellElement.classList.add("ship");
         } else if (cell === "hit") {
           cellElement.classList.add("hit");
@@ -24,12 +24,11 @@ export default function gameBoardFactory(ship, board) {
     });
   }
 
-  function placeShip(length, x, y) {
-    let newShip = ship(length,x,y);
+  function placeShip(length,x,y) {
+    let newShip = ship(length, x, y);
     shipsArray.push(newShip);
     for (let i = 0; i < newShip.length; i++) {
-      grid[x + i][y] = "ship";
-      // grid[x + i][y] = newShip;
+      grid[x + i][y] = newShip;
 
     }
     updateBoard()
@@ -39,7 +38,9 @@ export default function gameBoardFactory(ship, board) {
   }
 
   function receiveAttack(x, y) {
-    if (grid[x][y] === "ship") {
+    const target = grid[x][y]
+    if (target instanceof Object) {
+      target.hit()
       grid[x][y] = "hit";
     } else {
       grid[x][y] = "miss";
@@ -48,18 +49,17 @@ export default function gameBoardFactory(ship, board) {
   }
 
   function checkSunkAll() {
-    // console.log(shipsArray)
-    // console.log(shipsArray.every((ship) => ship.isSunk()));
     return shipsArray.every((ship) => ship.isSunk());
   }
 
   updateBoard()
+
   return {
     grid: grid,
     shipsArray: shipsArray,
     placeShip: placeShip,
     receiveAttack: receiveAttack,
     checkSunkAll: checkSunkAll, 
-    updateBoard: updateBoard
+    updateBoard: updateBoard,
   };
 }
