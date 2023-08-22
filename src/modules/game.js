@@ -7,6 +7,7 @@ export default function Game(gameBoardFactory, Player) {
   let aiGrid = document.querySelector(".ai");
   let hidingAiBoard = document.querySelector(".ai-side")
   const startButton = document.querySelector(".start-button")
+  const playerHeader = document.querySelector(".player-header")
 
   let gameState = {
     isPlayerTurn: true,
@@ -49,6 +50,8 @@ export default function Game(gameBoardFactory, Player) {
   function startGame() {
     hidingAiBoard.style.display = "block"
     gameContainer.style.justifyContent = "space-around"
+    startButton.style.display = "none"
+    playerHeader.textContent = "Player"
     activateBoard()
     
   }

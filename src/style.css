@@ -41,10 +41,5 @@
   display: none;
 }
 
-/* hiding aiboard before ships are set up */
-/* .ship-setup {
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  
-} */
+/* need to fix so that css does not flash when page is refreshed 
+1 approach will be chaning the html to be dynamic and activate using start game button*/
