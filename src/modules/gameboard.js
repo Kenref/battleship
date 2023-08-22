@@ -24,17 +24,37 @@ export default function gameBoardFactory(ship, board) {
     });
   }
 
-  function placeShip(length,x,y) {
+  function placeShip(length,x,y, orientation="horizontal") {
     let newShip = ship(length, x, y);
     shipsArray.push(newShip);
-    for (let i = 0; i < newShip.length; i++) {
-      grid[x + i][y] = newShip;
+
+    if (orientation === "horizontal" && newShip.length > (10 - y)) {
+      throw new Error("Ship does not fit horizontally")
+    }
+    if (orientation === "vertical" && newShip.length > (10 - x)) {
+      throw new Error("Ship does not fit vertically")
+    }
+
+    if (orientation === "horizontal") {
+      for (let i = 0; i < newShip.length; i++) {
+        grid[x][y + i] = newShip;
+      }
+    } else {
+      for (let i = 0; i < newShip.length; i++) {
+        grid[x + i][y] = newShip;
+    }
+
+
 
     }
     updateBoard()
     return newShip;
     // allow ships to be placed horizontally or vertically
     // ships cannot be placed if they are longer than board e.g. on the edge
+  }
+
+  function placeAllShips() {
+    //work on placing ships next
   }
 
   function receiveAttack(x, y) {

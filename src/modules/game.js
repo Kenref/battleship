@@ -5,6 +5,8 @@ export default function Game(gameBoardFactory, Player) {
   let gameContainer = document.getElementById("game-container");
   let playerGrid = document.querySelector(".player");
   let aiGrid = document.querySelector(".ai");
+  let hidingAiBoard = document.querySelector(".ai-side")
+  const startButton = document.querySelector(".start-button")
 
   let gameState = {
     isPlayerTurn: true,
@@ -19,20 +21,7 @@ export default function Game(gameBoardFactory, Player) {
   const player = Player(playerBoard, aiBoard, gameState);
   const ai = Player(playerBoard, aiBoard, gameState);
 
-  // function nextTurn() {
-  //   if (playerBoard.checkSunkAll() || aiBoard.checkSunkAll()) {
-  //     alert("game over");
-  //     gameState.isGameOver = true;
-  //     return gameState.isGameOver;
-  //   }
-  //   if(gameState.isPlayerTurn = true){
-  //     player.playerAttacks()
-  //     gameState.isPlayerTurn = false
-  //   } else {
-  //     ai.aiAttacks()
-  //     gameState.isPlayerTurn = true
-  //   }
-  // }
+  startButton.addEventListener("click", startGame)
 
   function nextTurn() {
     if (playerBoard.checkSunkAll() || aiBoard.checkSunkAll()) {
@@ -47,24 +36,27 @@ export default function Game(gameBoardFactory, Player) {
     }
   }
 
-  aiGrid.addEventListener("click", (e) => {
-    const x = parseInt(e.target.dataset.row);
-    const y = parseInt(e.target.dataset.col);
-    // console.log(e)
-    player.playerAttacks(x, y)
-    setTimeout(ai.aiAttacks, 500)
-    nextTurn()
-  })
+  function activateBoard() {
+    aiGrid.addEventListener("click", (e) => {
+      const x = parseInt(e.target.dataset.row);
+      const y = parseInt(e.target.dataset.col);
+      player.playerAttacks(x, y);
+      setTimeout(ai.aiAttacks, 500);
+      nextTurn();
+    })
+  }
+
+  function startGame() {
+    hidingAiBoard.style.display = "block"
+    gameContainer.style.justifyContent = "space-around"
+    activateBoard()
+    
+  }
 
   return {
-    // isPlayerTurn: isPlayerTurn,
-    // playerAttacks: playerAttacks,
-    // aiAttacks: aiAttacks,
-
     playerBoard: playerBoard,
     aiBoard: aiBoard,
     player: player,
     ai: ai,
-    nextTurn: nextTurn
   };
 }
