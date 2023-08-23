@@ -53,8 +53,12 @@ export default function gameBoardFactory(ship, board) {
 
     ships.forEach(ship => {
       ship.addEventListener("dragstart", (e) => {
+        ship.classList.add("dragging")
         e.dataTransfer.setData("text/plain", e.target.dataset.length)
-        console.log("Dragging ship of length:", e.target.dataset.length);
+      })
+      ship.addEventListener("dragend", (e) => {
+        e.preventDefault()
+        ship.style.display = "none"
       })
     })
     gridCells.forEach(cell => {
@@ -66,8 +70,7 @@ export default function gameBoardFactory(ship, board) {
         const shipLength = e.dataTransfer.getData("text/plain");
         const x = parseInt(e.target.dataset.row)
         const y = parseInt(e.target.dataset.col);
-        console.log("Dropped ship of length:", shipLength, "at coordinates:", x, y);
-        placeShip(shipLength,x,y)
+        placeShip(shipLength, x, y)
       })
     })
   }
