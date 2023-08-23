@@ -18,12 +18,16 @@
 }
 
 /* change width and height based on orientation */
-.ship {
+.ships {
   width: 50px;
   height: 20px;
   background-color: blue;
   margin: 5px;
   cursor: grab;
+}
+
+.dragging {
+  opacity: 0.5;
 }
 
 .cell {

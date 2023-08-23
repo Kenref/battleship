@@ -5,6 +5,7 @@ import Game from "./modules/game.js";
 
 const game = Game(gameBoardFactory, Player)
 
+game.playerBoard.dragShips();
 
 
 

@@ -20,6 +20,7 @@ export default function gameBoardFactory(ship, board) {
         board.appendChild(cellElement);
       });
     });
+    dragShips()
   }
 
   function placeShip(length, x, y, orientation = "horizontal") {
@@ -45,10 +46,29 @@ export default function gameBoardFactory(ship, board) {
     return newShip;
   }
 
+  // activate more than once and change orientation
   function dragShips() {
-    const ships = document.querySelectorAll("ships")
-    ships.forEach("dragstart", (e) => {
+    const ships = document.querySelectorAll(".ships")
+    const gridCells = document.querySelectorAll(".cell")
 
+    ships.forEach(ship => {
+      ship.addEventListener("dragstart", (e) => {
+        e.dataTransfer.setData("text/plain", e.target.dataset.length)
+        console.log("Dragging ship of length:", e.target.dataset.length);
+      })
+    })
+    gridCells.forEach(cell => {
+      cell.addEventListener("dragover", (e) => {
+        e.preventDefault()
+      })
+      cell.addEventListener("drop", (e) => {
+        e.preventDefault()
+        const shipLength = e.dataTransfer.getData("text/plain");
+        const x = parseInt(e.target.dataset.row)
+        const y = parseInt(e.target.dataset.col);
+        console.log("Dropped ship of length:", shipLength, "at coordinates:", x, y);
+        placeShip(shipLength,x,y)
+      })
     })
   }
 
@@ -76,5 +96,6 @@ export default function gameBoardFactory(ship, board) {
     receiveAttack: receiveAttack,
     checkSunkAll: checkSunkAll,
     updateBoard: updateBoard,
+    dragShips: dragShips
   };
 }
