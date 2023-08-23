@@ -1,18 +1,18 @@
 import shipFactory from "./ships-factory";
 
-
 export default function Game(gameBoardFactory, Player) {
   let gameContainer = document.getElementById("game-container");
   let playerGrid = document.querySelector(".player");
   let aiGrid = document.querySelector(".ai");
-  let hidingAiBoard = document.querySelector(".ai-side")
-  const startButton = document.querySelector(".start-button")
-  const playerHeader = document.querySelector(".player-header")
+  let aiHeader = document.querySelector(".ai-header");
+  const startButton = document.querySelector(".start-button");
+  const playerHeader = document.querySelector(".player-header");
+  const shipContainer = document.querySelector(".ship-container")
 
   let gameState = {
     isPlayerTurn: true,
     isGameOver: false,
-
+    // remove below later or implement
     playerAttacks: [],
     aiAttacks: [],
   };
@@ -22,7 +22,7 @@ export default function Game(gameBoardFactory, Player) {
   const player = Player(playerBoard, aiBoard, gameState);
   const ai = Player(playerBoard, aiBoard, gameState);
 
-  startButton.addEventListener("click", startGame)
+  startButton.addEventListener("click", startGame);
 
   function nextTurn() {
     if (playerBoard.checkSunkAll() || aiBoard.checkSunkAll()) {
@@ -44,16 +44,18 @@ export default function Game(gameBoardFactory, Player) {
       player.playerAttacks(x, y);
       setTimeout(ai.aiAttacks, 500);
       nextTurn();
-    })
+    });
   }
 
   function startGame() {
-    hidingAiBoard.style.display = "block"
-    gameContainer.style.justifyContent = "space-around"
-    startButton.style.display = "none"
-    playerHeader.textContent = "Player"
-    activateBoard()
-    
+    // aiHeader.style.display = "block";
+    // aiGrid.style.display = "block"
+    aiHeader.classList.remove("hidden")
+    aiGrid.classList.remove("hidden");
+    startButton.style.display = "none";
+    shipContainer.style.display = "none"
+    playerHeader.textContent = "Player";
+    activateBoard();
   }
 
   return {

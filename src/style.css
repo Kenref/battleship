@@ -1,8 +1,7 @@
 #game-container {
   background-color: azure;
   display: flex;
-  justify-content: center;
-  align-items: center;
+  justify-content: space-around;
 }
 
 .grid {
@@ -16,6 +15,15 @@
 
 .start-button {
   
+}
+
+/* change width and height based on orientation */
+.ship {
+  width: 50px;
+  height: 20px;
+  background-color: blue;
+  margin: 5px;
+  cursor: grab;
 }
 
 .cell {
@@ -37,7 +45,7 @@
   background-color: gray;
 }
 
-.ai-side {
+.hidden {
   display: none;
 }
 
