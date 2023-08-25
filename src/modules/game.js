@@ -7,7 +7,7 @@ export default function Game(gameBoardFactory, Player) {
   let aiHeader = document.querySelector(".ai-header");
   const startButton = document.querySelector(".start-button");
   const playerHeader = document.querySelector(".player-header");
-  const shipContainer = document.querySelector(".ship-container")
+  const shipContainer = document.querySelector(".ships-container")
 
   let gameState = {
     isPlayerTurn: true,

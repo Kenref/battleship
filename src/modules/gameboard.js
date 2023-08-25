@@ -3,7 +3,7 @@ export default function gameBoardFactory(ship, board) {
   let shipsArray = [];
 
   function updateBoard() {
-    board.innerHTML = "";
+    // board.innerHTML = "";
     grid.forEach((row, rowIndex) => {
       row.forEach((cell, colIndex) => {
         const cellElement = document.createElement("div");
@@ -20,7 +20,7 @@ export default function gameBoardFactory(ship, board) {
         board.appendChild(cellElement);
       });
     });
-    dragShips()
+    // dragShips();
   }
 
   function placeShip(length, x, y, orientation = "horizontal") {
@@ -48,32 +48,41 @@ export default function gameBoardFactory(ship, board) {
 
   // activate more than once and change orientation
   function dragShips() {
-    const ships = document.querySelectorAll(".ships")
-    const gridCells = document.querySelectorAll(".cell")
+    const ships = document.querySelectorAll(".ships");
+    const gridCells = document.querySelectorAll(".cell");
 
-    ships.forEach(ship => {
+    ships.forEach((ship) => {
       ship.addEventListener("dragstart", (e) => {
-        ship.classList.add("dragging")
-        e.dataTransfer.setData("text/plain", e.target.dataset.length)
-      })
+        ship.classList.add("dragging");
+        e.dataTransfer.setData("text/plain", e.target.dataset.length);
+      });
       ship.addEventListener("dragend", (e) => {
-        e.preventDefault()
-        ship.style.display = "none"
-      })
-    })
-    gridCells.forEach(cell => {
+        e.preventDefault();
+
+        // if () {
+        //   ship.style.display = "none"
+        // }
+      });
+    });
+    gridCells.forEach((cell) => {
       cell.addEventListener("dragover", (e) => {
-        e.preventDefault()
-      })
+        e.preventDefault();
+      });
       cell.addEventListener("drop", (e) => {
-        e.preventDefault()
+        e.preventDefault();
         const shipLength = e.dataTransfer.getData("text/plain");
-        const x = parseInt(e.target.dataset.row)
+        const x = parseInt(e.target.dataset.row);
         const y = parseInt(e.target.dataset.col);
-        placeShip(shipLength, x, y)
-      })
-    })
+        e.target.dataset.length = shipLength;
+        cell.dataset.length = shipLength;
+        console.log(e.target.dataset.length);
+
+        placeShip(shipLength, x, y);
+      });
+    });
   }
+
+  //the first ship placement activates the ai one too
 
   function receiveAttack(x, y) {
     const target = grid[x][y];
@@ -99,6 +108,6 @@ export default function gameBoardFactory(ship, board) {
     receiveAttack: receiveAttack,
     checkSunkAll: checkSunkAll,
     updateBoard: updateBoard,
-    dragShips: dragShips
+    dragShips: dragShips,
   };
 }
