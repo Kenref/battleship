@@ -2,11 +2,13 @@ export default function gameBoardFactory(ship, board) {
   let grid = new Array(10).fill(null).map(() => new Array(10).fill("empty"));
   let shipsArray = [];
 
+
   function updateBoard() {
     // board.innerHTML = "";
-    grid.forEach((row, rowIndex) => {
+    grid.slice().reverse().forEach((row, reversedRowIndex) => {
       row.forEach((cell, colIndex) => {
         const cellElement = document.createElement("div");
+        const rowIndex = 9 - reversedRowIndex
         cellElement.dataset.row = rowIndex;
         cellElement.dataset.col = colIndex;
         cellElement.classList.add("cell");
@@ -20,7 +22,7 @@ export default function gameBoardFactory(ship, board) {
         board.appendChild(cellElement);
       });
     });
-    // dragShips();
+    dragShips();
   }
 
   function placeShip(length, x, y, orientation = "horizontal") {
