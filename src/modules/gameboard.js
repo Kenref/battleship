@@ -2,28 +2,42 @@ export default function gameBoardFactory(ship, board) {
   let grid = new Array(10).fill(null).map(() => new Array(10).fill("empty"));
   let shipsArray = [];
 
+  function initialiseBoard() {
+    board.innerHTML = "";
+    grid
+      .slice()
+      .reverse()
+      .forEach((row, reversedRowIndex) => {
+        row.forEach((cell, colIndex) => {
+          const cellElement = document.createElement("div");
+          const rowIndex = 9 - reversedRowIndex;
+          cellElement.dataset.row = rowIndex;
+          cellElement.dataset.col = colIndex;
+          cellElement.classList.add("cell");
+          board.appendChild(cellElement);
+        });
+      });
+  }
 
   function updateBoard() {
-    // board.innerHTML = "";
-    grid.slice().reverse().forEach((row, reversedRowIndex) => {
-      row.forEach((cell, colIndex) => {
-        const cellElement = document.createElement("div");
-        const rowIndex = 9 - reversedRowIndex
-        cellElement.dataset.row = rowIndex;
-        cellElement.dataset.col = colIndex;
-        cellElement.classList.add("cell");
-        if (cell instanceof Object) {
-          cellElement.classList.add("ship");
-        } else if (cell === "hit") {
-          cellElement.classList.add("hit");
-        } else if (cell === "miss") {
-          cellElement.classList.add("miss");
-        }
-        board.appendChild(cellElement);
-      });
+    const cells = document.querySelectorAll(".cell")
+    cells.forEach((cellElement, index) => {
+      const x = parseInt(cellElement.dataset.row);
+      const y = parseInt(cellElement.dataset.col);
+      const cell = grid[x][y];
+      cellElement.className = "cell";
+      if (cell instanceof Object) {
+        cellElement.classList.add("ship");
+        // cellElement.dataset.length = row.length;
+      }else if (cell === "hit") {
+        cellElement.classList.add("hit");
+      } else if (cell === "miss") {
+        cellElement.classList.add("miss");
+      }
     });
-    dragShips();
-  }
+
+  };
+  
 
   function placeShip(length, x, y, orientation = "horizontal") {
     let newShip = ship(length, x, y);
@@ -52,7 +66,7 @@ export default function gameBoardFactory(ship, board) {
   function dragShips() {
     const ships = document.querySelectorAll(".ships");
     const gridCells = document.querySelectorAll(".cell");
-
+    //try chaning to getelementbyclassname because query selector all returns a nodelist
     ships.forEach((ship) => {
       ship.addEventListener("dragstart", (e) => {
         ship.classList.add("dragging");
@@ -60,10 +74,7 @@ export default function gameBoardFactory(ship, board) {
       });
       ship.addEventListener("dragend", (e) => {
         e.preventDefault();
-
-        // if () {
-        //   ship.style.display = "none"
-        // }
+        //hide ships after they been let go
       });
     });
     gridCells.forEach((cell) => {
@@ -84,24 +95,40 @@ export default function gameBoardFactory(ship, board) {
     });
   }
 
-  //the first ship placement activates the ai one too
+  // the first ship placement activates the ai one too
+
+  // function receiveAttack(x, y) {
+  //   const target = grid[x][y];
+  //   if (target instanceof Object) {
+  //     target.hit();
+  //     grid[x][y] = "hit";
+  //   } else {
+  //     grid[x][y] = "miss";
+  //   }
+  //   updateBoard();
+  // }
 
   function receiveAttack(x, y) {
-    const target = grid[x][y];
-    if (target instanceof Object) {
-      target.hit();
-      grid[x][y] = "hit";
+    const domTarget = document.querySelector(`[data-row="${x}"][data-col="${y}"]`);
+    const gridTarget = grid[x][y]
+
+    if (gridTarget instanceof Object) {
+      gridTarget.hit()
+      grid[x][y] = "hit"
+      domTarget.classList.add("hit");
     } else {
-      grid[x][y] = "miss";
+      grid[x][y] = "miss"
+      domTarget.classList.add("miss")
     }
     updateBoard();
   }
 
   function checkSunkAll() {
+    console.log(shipsArray)
     return shipsArray.every((ship) => ship.isSunk());
   }
 
-  updateBoard();
+  // updateBoard();
 
   return {
     grid: grid,
@@ -109,6 +136,7 @@ export default function gameBoardFactory(ship, board) {
     placeShip: placeShip,
     receiveAttack: receiveAttack,
     checkSunkAll: checkSunkAll,
+    initialiseBoard: initialiseBoard,
     updateBoard: updateBoard,
     dragShips: dragShips,
   };
