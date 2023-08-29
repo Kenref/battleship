@@ -38,25 +38,83 @@ export default function gameBoardFactory(ship, board,gameState) {
     });
   }
 
-  function placeAiShip() {
-    for (let i = 0; i < 7; i++) {
-      const x = Math.round(Math.random() * (10 - i))
-      const y = Math.round(Math.random() * (10 - i))
-      const orientation = (Math.random() < 0.5) ? "horizontal" : "vertical"
-      const newShip = ship(i, x, y, orientation);
-      aiArray.push(newShip)
-      console.log(newShip)
-      if (orientation === "horizontal") {
-        for (let i = 0; i < newShip.length; i++) {
-          grid[x][y + i] = newShip;
+  // function placeAiShip() {
+  //   for (let i = 0; i < 7; i++) {
+  //     const x = Math.round(Math.random() * (10 - i))
+  //     const y = Math.round(Math.random() * (10 - i))
+  //     const orientation = (Math.random() < 0.5) ? "horizontal" : "vertical"
+  //     const newShip = ship(i, x, y, orientation);
+  //     aiArray.push(newShip)
+  //     console.log(newShip)
+  //     if (orientation === "horizontal") {
+  //       for (let i = 0; i < newShip.length; i++) {
+  //         grid[x][y + i] = newShip;
+  //       }
+  //     } else {
+  //       for (let i = 0; i < newShip.length; i++) {
+  //         grid[x + i][y] = newShip;
+  //       }
+  //     }
+  //   }
+  // }
+
+  function checkValidPlacement(x, y, length, orientation, grid) {
+    if (orientation === "horizontal" && x + length > 10) return false;
+    if (orientation === "vertical" && y + length > 10) return false;
+
+
+  }
+
+    function placeAiShip() {
+      for (let i = 0; i < 7; i++) {
+        let x,y,cellCoordinatesPlusX,cellCoordinatesMinusX,cellCoordinatesPlusY,cellCoordinatesMinusY
+
+        // do {
+          x = Math.round(Math.random() * (10 - i));
+          y = Math.round(Math.random() * (10 - i));
+        let cellCoordinates = document.querySelector(`[data-row="${x}"][data-col="${y}"]`);
+        if (x >= 0 && x< 10 && y >= 0 && y < 10) {
+          cellCoordinatesPlusX = document.querySelector(`[data-row="${x + 1}"][data-col="${y}"]`)
+          cellCoordinatesMinusX = document.querySelector(
+          `[data-row="${x - 1}"][data-col="${y}"]`,
+          );
+          cellCoordinatesPlusY = document.querySelector(
+            `[data-row="${x}"][data-col="${y +1}"]`,
+          );
+          cellCoordinatesMinusY = document.querySelector(
+            `[data-row="${x}"][data-col="${y-1}"]`,
+          );
         }
-      } else {
-        for (let i = 0; i < newShip.length; i++) {
-          grid[x + i][y] = newShip;
+        console.log(grid)
+          if (
+            !cellCoordinatesMinusX.classList.contains("ship")
+            
+          ) {
+            console.log("true");
+          }
+
+
+        // } while (
+        //     cellAdjacentPlus.classList.contains
+        //   )
+        // );
+        
+
+        const orientation = Math.random() < 0.5 ? "horizontal" : "vertical";
+        const newShip = ship(i, x, y, orientation);
+        aiArray.push(newShip);
+        // console.log(newShip);
+        if (orientation === "horizontal") {
+          for (let i = 0; i < newShip.length; i++) {
+            grid[x][y + i] = newShip;
+          }
+        } else {
+          for (let i = 0; i < newShip.length; i++) {
+            grid[x + i][y] = newShip;
+          }
         }
       }
     }
-  }
 
   function placePlayerShip(length, x, y, orientation = "horizontal") {
     let newShip = ship(length, x, y);
