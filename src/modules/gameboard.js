@@ -1,37 +1,48 @@
-export default function gameBoardFactory(ship) {
-  let grid = new Array(10).fill(null).map(() => new Array(10).fill("empty"))
-  let shipsArray = []
+export default function gameBoardFactory(shipFactory) {
+  function createGrid(rows, columns) {
+    const grid = [];
+    for (let i = 0; i < rows; i++) {
+      const row = [];
+      for (let j = 0; j < columns; j++) {
+        row.push("empty");
+      }
+      grid.push(row);
+    }
+    return grid;
+  }
 
   return {
-    grid: grid,
-    shipsArray: shipsArray,
+    createGrid: createGrid,
+  };
 
-    placeShip: function (length, x, y) {
-      let newShip = ship(length)
-      shipsArray.push(newShip)
-      for (let i = 0; i < newShip.length; i++) {
-        grid[x+i][y] = "ship";
-      }
-      return newShip
-      // allow ships to be placed horizontally or vertically
-      // ships cannot be placed if they are longer than board e.g. on the edge
-    },
+  // return {
+  //   grid: grid,
+  //   shipsArray: shipsArray,
 
-    receiveAttack: function(x, y) {
-      if (grid[x][y] === "ship") {
-        grid[x][y] = "hit"
-        return "hit"
-      } else {
-        grid[x][y] = "miss"
-        return "miss"
-      }
-    },
+  //   placeShip: function (length, x, y) {
+  //     let newShip = ship(length)
+  //     shipsArray.push(newShip)
+  //     for (let i = 0; i < newShip.length; i++) {
+  //       grid[x + i][y] = "ship";
+  //     }
+  //     return newShip
+  //     // allow ships to be placed horizontally or vertically
+  //     // ships cannot be placed if they are longer than board e.g. on the edge
+  //   },
 
-    checkSunkAll: function () {
-      return shipsArray.every((ship) => ship.isSunk())
-    },
+  //   receiveAttack: function(x, y) {
+  //     if (grid[x][y] === "ship") {
+  //       grid[x][y] = "hit"
+  //       return "hit"
+  //     } else {
+  //       grid[x][y] = "miss"
+  //       return "miss"
+  //     }
+  //   },
 
-  }
+  //   checkSunkAll: function () {
+  //     return shipsArray.every((ship) => ship.isSunk())
+  //   },
+
+  // }
 }
-
-
