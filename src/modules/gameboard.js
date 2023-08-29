@@ -1,6 +1,7 @@
-export default function gameBoardFactory(ship, board) {
+export default function gameBoardFactory(ship, board,gameState) {
   let grid = new Array(10).fill(null).map(() => new Array(10).fill("empty"));
-  let shipsArray = [];
+  let playerArray = gameState.playerShipArray;
+  let aiArray = gameState.aiShipArray;
 
   function initialiseBoard() {
     board.innerHTML = "";
@@ -20,7 +21,7 @@ export default function gameBoardFactory(ship, board) {
   }
 
   function updateBoard() {
-    const cells = document.querySelectorAll(".cell")
+    const cells = document.querySelectorAll(".cell");
     cells.forEach((cellElement, index) => {
       const x = parseInt(cellElement.dataset.row);
       const y = parseInt(cellElement.dataset.col);
@@ -29,20 +30,37 @@ export default function gameBoardFactory(ship, board) {
       if (cell instanceof Object) {
         cellElement.classList.add("ship");
         // cellElement.dataset.length = row.length;
-      }else if (cell === "hit") {
+      } else if (cell === "hit") {
         cellElement.classList.add("hit");
       } else if (cell === "miss") {
         cellElement.classList.add("miss");
       }
     });
+  }
 
-  };
-  
+  function placeAiShip() {
+    for (let i = 0; i < 7; i++) {
+      const x = Math.round(Math.random() * (10 - i))
+      const y = Math.round(Math.random() * (10 - i))
+      const orientation = (Math.random() < 0.5) ? "horizontal" : "vertical"
+      const newShip = ship(i, x, y, orientation);
+      aiArray.push(newShip)
+      console.log(newShip)
+      if (orientation === "horizontal") {
+        for (let i = 0; i < newShip.length; i++) {
+          grid[x][y + i] = newShip;
+        }
+      } else {
+        for (let i = 0; i < newShip.length; i++) {
+          grid[x + i][y] = newShip;
+        }
+      }
+    }
+  }
 
-  function placeShip(length, x, y, orientation = "horizontal") {
+  function placePlayerShip(length, x, y, orientation = "horizontal") {
     let newShip = ship(length, x, y);
-    shipsArray.push(newShip);
-
+    playerArray.push(newShip);
     if (orientation === "horizontal" && newShip.length > 10 - y) {
       throw new Error("Ship does not fit horizontally");
     }
@@ -58,7 +76,6 @@ export default function gameBoardFactory(ship, board) {
         grid[x + i][y] = newShip;
       }
     }
-    updateBoard();
     return newShip;
   }
 
@@ -90,7 +107,7 @@ export default function gameBoardFactory(ship, board) {
         cell.dataset.length = shipLength;
         console.log(e.target.dataset.length);
 
-        placeShip(shipLength, x, y);
+        placePlayerShip(shipLength, x, y);
       });
     });
   }
@@ -109,31 +126,37 @@ export default function gameBoardFactory(ship, board) {
   // }
 
   function receiveAttack(x, y) {
-    const domTarget = document.querySelector(`[data-row="${x}"][data-col="${y}"]`);
-    const gridTarget = grid[x][y]
+    const domTarget = document.querySelector(
+      `[data-row="${x}"][data-col="${y}"]`,
+    );
+    const gridTarget = grid[x][y];
 
     if (gridTarget instanceof Object) {
-      gridTarget.hit()
-      grid[x][y] = "hit"
+      gridTarget.hit();
+      grid[x][y] = "hit";
       domTarget.classList.add("hit");
     } else {
-      grid[x][y] = "miss"
-      domTarget.classList.add("miss")
+      grid[x][y] = "miss";
+      domTarget.classList.add("miss");
     }
-    updateBoard();
   }
 
   function checkSunkAll() {
-    console.log(shipsArray)
-    return shipsArray.every((ship) => ship.isSunk());
+    //check of player and ai sunk
+    console.log(playerArray);
+    return (
+      playerArray.every((ship) => ship.isSunk()) ||
+      aiArray.every((ship) => ship.isSunk())
+    );
   }
 
   // updateBoard();
 
   return {
     grid: grid,
-    shipsArray: shipsArray,
-    placeShip: placeShip,
+    playerArray: playerArray,
+    placePlayerShip: placePlayerShip,
+    placeAiShip: placeAiShip,
     receiveAttack: receiveAttack,
     checkSunkAll: checkSunkAll,
     initialiseBoard: initialiseBoard,

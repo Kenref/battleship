@@ -51,7 +51,7 @@
 }
 
 .hidden {
-  display: none;
+  /* display: none; */
 }
 
 /* need to fix so that css does not flash when page is refreshed 

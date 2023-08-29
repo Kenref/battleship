@@ -13,15 +13,13 @@ game.playerBoard.dragShips();
 
 
 
-// game.playerBoard.placeShip(1, 0, 0);
-// game.playerBoard.placeShip(2, 7, 7);
-// game.playerBoard.placeShip(3, 2, 7);
-// game.playerBoard.placeShip(4, 6, 4, "vertical");
+// game.playerBoard.placePlayerShip(1, 0, 0);
+// game.playerBoard.placePlayerShip(2, 7, 7);
+// game.playerBoard.placePlayerShip(3, 2, 7);
+// game.playerBoard.placePlayerShip(4, 6, 4, "vertical");
+// game.playerBoard.updateBoard();
 
-// game.aiBoard.placeShip(1, 0, 0)
-// game.aiBoard.placeShip(2, 9, 8);
-// game.aiBoard.placeShip(3, 6, 2);
-// game.aiBoard.placeShip(4, 4, 6);
-
+game.aiBoard.placeAiShip()
+game.aiBoard.updateBoard();
 
 

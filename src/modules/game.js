@@ -15,10 +15,12 @@ export default function Game(gameBoardFactory, Player) {
     // remove below later or implement
     playerAttacks: [],
     aiAttacks: [],
+    playerShipArray: [],
+    aiShipArray: []
   };
 
-  const playerBoard = gameBoardFactory(shipFactory, playerGrid);
-  const aiBoard = gameBoardFactory(shipFactory, aiGrid);
+  const playerBoard = gameBoardFactory(shipFactory, playerGrid,gameState);
+  const aiBoard = gameBoardFactory(shipFactory, aiGrid,gameState);
   const player = Player(playerBoard, aiBoard, gameState);
   const ai = Player(playerBoard, aiBoard, gameState);
 
