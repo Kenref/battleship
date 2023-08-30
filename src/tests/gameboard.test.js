@@ -1,52 +1,37 @@
 import gameBoardFactory from "../modules/gameboard.js";
 import shipFactory from "../modules/ships-factory.js";
 
-
 describe("creating a grid using array", () => {
-
   test("create a grid of 5 length and height", () => {
-    const testGameboard = gameBoardFactory()
-    const grid = testGameboard.createGrid(5, 5)
-    // console.log(grid)
-    expect(grid.length).toBe(5)
-    // expect(grid[0].length).toBe(5)
-  })
+    const grid = gameBoardFactory().createGrid(5, 5);
+    expect(grid.length).toBe(5);
+    expect(grid[0].length).toBe(5);
+  });
 
   test("the grid will have 10 length for both rows and columns", () => {
-    const testGameboard = gameBoardFactory()
-    const grid = testGameboard.createGrid(10, 10);
+    const grid = gameBoardFactory().createGrid(10, 10);
     expect(grid.length).toBe(10);
     expect(grid[0].length).toBe(10);
-  });  
+  });
 
   test("all of the grid cells are initialised to empty", () => {
-      const testGameboard = gameBoardFactory()
-      const grid = testGameboard.createGrid(10,10)
-      for (let row of grid) {
-        for (let cell of row) {
-          expect(cell).toBe("empty");
-        }
+    const grid = gameBoardFactory().createGrid(10, 10);
+    for (let row of grid) {
+      for (let cell of row) {
+        expect(cell).toBe("empty");
       }
-    })
-    
-  
+    }
+  });
+});
+
+describe("place ships at specific coordinates", () => {
+  test("place a ship at (0,0)", () => {
+    const grid = gameBoardFactory().createGrid(10,10)
+    const newShip = shipFactory(2)
+    newShip.placeship(0, 0)
+    expect(0,0).tobe(newShip)
+  })
 })
-
-
-
-
-
-// describe("place ships at specific coordinates", () => {
-//   test("place a ship at (0,0)", () => {
-//     const newShip = shipFactory(2)
-//     newShip.placeship(0, 0)
-//     expect(0,0).tobe(10)
-//   })
-// })
-
-
-
-
 
 // describe("initialising a game board factory", () => {
 //   test("Check there are 10 elements in the array", () => {
