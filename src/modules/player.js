@@ -4,9 +4,10 @@ export default function Player() {
     opponentBoard.receiveAttack(x,y)
   }
 
+  function getRandomTarget() {
+    
+  }
 
-
-  //logic for ai attack
 
   return {
     attack: attack,
