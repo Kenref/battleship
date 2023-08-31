@@ -19,8 +19,13 @@ export default function gameBoardFactory(rows,columns,shipFactory) {
     }
   }
 
-  function receiveAttack(x,y) {
-    grid[x][y].hit()
+  function receiveAttack(x, y) {
+    if (grid[x][y] === "empty") {
+      grid[x][y] = "missed"
+      missedAttacks.push({x,y})
+    } else {
+      grid[x][y].hit();
+    }
   }
 
 
@@ -31,10 +36,12 @@ export default function gameBoardFactory(rows,columns,shipFactory) {
   createGrid(rows,columns)
 
   return {
+    grid: grid,
+    missedAttacks: missedAttacks,
     createGrid: createGrid,
     placeShip: placeShip,
     receiveAttack: receiveAttack,
-    grid: grid
+
   };
 
   // return {

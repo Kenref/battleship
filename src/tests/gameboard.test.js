@@ -47,17 +47,48 @@ describe("ships able to receive attacks", () => {
     gameBoard.receiveAttack(0, 0);
     expect(gameBoard.grid[0][0].hitTimes).toBe(1);
     expect(gameBoard.grid[1][0].hitTimes).toBe(1);
-    // expect(gameBoard.grid[0][0].hitTimes).toBe(1)
-    //       expect(gameBoard.grid[1][0].hitTimes).toBe(1);
   });
 
-  test("check if the ship is able to be sunk", () => {
-    const gameBoard = gameBoardFactory(10, 10, shipFactory);
-    gameBoard.placeShip(0, 0, 2);
-    gameBoard.receiveAttack(0, 0);
-    gameBoard.receiveAttack(1, 0);
-    expect(gameBoard.grid[0][0].isSunk()).toBe(true);
-    expect(gameBoard.grid[1][0].isSunk()).toBe(true);
-  });
+
 });
 
+describe("location of missed attacks will be added to the missedAttacks array", () => {
+  test("missed attack at (9,9) will be added to array", () => {
+    const gameBoard = gameBoardFactory(10, 10, shipFactory)
+    gameBoard.receiveAttack(9, 9)
+    expect(gameBoard.grid[9][9]).toBe("missed")
+    expect(gameBoard.missedAttacks).toContainEqual({x: 9,y: 9})
+  })
+  test("multiple missed attacks should be registered", () => {
+    const gameBoard = gameBoardFactory(10, 10, shipFactory);
+    gameBoard.receiveAttack(9, 9);
+    gameBoard.receiveAttack(0,0)
+    expect(gameBoard.grid[9][9]).toBe("missed");
+    expect(gameBoard.grid[0][0]).toBe("missed");
+    expect(gameBoard.missedAttacks).toContainEqual({ x: 0, y: 0 });
+    expect(gameBoard.missedAttacks).toContainEqual({ x: 9, y: 9 });
+  })
+})
+
+describe("check that all ships are sunk", () => {
+    test("check sunk all for a single ship", () => {
+      const gameBoard = gameBoardFactory(10, 10, shipFactory);
+      gameBoard.placeShip(0, 0, 2);
+      gameBoard.receiveAttack(0, 0);
+      gameBoard.receiveAttack(1, 0);
+      expect(gameBoard.grid[0][0].isSunk()).toBe(true);
+      expect(gameBoard.grid[1][0].isSunk()).toBe(true);
+    });
+  
+  test("check sunk all for multiple ships", () => {
+    const gameBoard = gameBoardFactory(10, 10, shipFactory);
+    gameBoard.placeShip(0, 0, 2);
+    gameBoard.placeShip(5,5,1)
+    gameBoard.receiveAttack(0, 0);
+    gameBoard.receiveAttack(1, 0);
+    gameBoard.receiveAttack(5,5)
+    expect(gameBoard.grid[0][0].isSunk()).toBe(true);
+    expect(gameBoard.grid[1][0].isSunk()).toBe(true);
+    expect(gameBoard.grid[5][5].isSunk()).toBe(true)
+  });
+})
