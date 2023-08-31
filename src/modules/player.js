@@ -1,5 +1,12 @@
 
 export default function Player() {
+
+
+
+
+
+
+  
   return {
 
     nextTurn: function () {

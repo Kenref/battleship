@@ -70,7 +70,7 @@ describe("location of missed attacks will be added to the missedAttacks array", 
   })
 })
 
-describe("check that all ships are sunk", () => {
+describe("check that ships status change to sunk when hit", () => {
     test("check sunk all for a single ship", () => {
       const gameBoard = gameBoardFactory(10, 10, shipFactory);
       gameBoard.placeShip(0, 0, 2);
@@ -91,4 +91,34 @@ describe("check that all ships are sunk", () => {
     expect(gameBoard.grid[1][0].isSunk()).toBe(true);
     expect(gameBoard.grid[5][5].isSunk()).toBe(true)
   });
+
+  test("ships sunk should be false if missed", () => {
+    const gameBoard = gameBoardFactory(10, 10, shipFactory);
+    gameBoard.placeShip(0, 0, 2);
+    gameBoard.receiveAttack(5, 5);
+    expect(gameBoard.grid[0][0].isSunk()).toBe(false);
+  });
+})
+
+describe("check that all ships have been sunk", () => {
+  test("sunk all should return false if not all ships sunk", () => {
+    const gameBoard = gameBoardFactory(10, 10, shipFactory);
+    gameBoard.placeShip(0, 0, 1);
+    expect(gameBoard.checkSunkAll()).toBe(false)
+  })
+
+  test("sunk all should return true if all ships have been sunk", () => {
+    const gameBoard = gameBoardFactory(10, 10, shipFactory);
+    gameBoard.placeShip(0, 0, 1);
+    gameBoard.receiveAttack(0,0)
+    expect(gameBoard.checkSunkAll()).toBe(true);
+  })
+
+  test("sunk all should return false if only some ships are sunk", () => {
+    const gameBoard = gameBoardFactory(10, 10, shipFactory);
+    gameBoard.placeShip(0, 0, 1);
+    gameBoard.placeShip(9, 9, 1)
+    gameBoard.receiveAttack(0,0)
+    expect(gameBoard.checkSunkAll()).toBe(false);
+  })
 })
