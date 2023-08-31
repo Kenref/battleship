@@ -1,29 +1,40 @@
-export default function gameBoardFactory(shipFactory) {
-  function createGrid(rows, columns) {
-    const grid = [];
-    for (let i = 0; i < rows; i++) {
+export default function gameBoardFactory(rows,columns,shipFactory) {
+  const grid = []
+  const missedAttacks = []
+
+  function createGrid(rowLength, columnLength) {
+    for (let i = 0; i < rowLength; i++) {
       const row = [];
-      for (let j = 0; j < columns; j++) {
+      for (let j = 0; j < columnLength; j++) {
         row.push("empty");
       }
       grid.push(row);
     }
-    return grid;
   }
 
-  
+  function placeShip(x, y,shipLength) {
+    const ship = shipFactory(shipLength)
+    for (let i = 0; i < shipLength; i++) {
+      grid[x+i][y] = ship
+    }
+  }
+
+  function receiveAttack(x,y) {
+    grid[x][y].hit()
+  }
 
 
 
 
 
 
-
-
-
+  createGrid(rows,columns)
 
   return {
     createGrid: createGrid,
+    placeShip: placeShip,
+    receiveAttack: receiveAttack,
+    grid: grid
   };
 
   // return {
