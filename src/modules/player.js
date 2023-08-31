@@ -1,25 +1,18 @@
 
 export default function Player() {
+  function attack(x,y,opponentBoard) {
+    opponentBoard.receiveAttack(x,y)
+  }
 
 
 
+  //logic for ai attack
 
-
-
-  
   return {
+    attack: attack,
 
-    nextTurn: function () {
-      if (isPlayerTurn) {
-        isPlayerTurn = false
-      } else {
-        isPlayerTurn = true
-      }
-    },
 
-    attack: function(target,x,y) {
-      target.receiveAttack(x,y)
-    }
+    
   }
 
 }

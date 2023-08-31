@@ -52,12 +52,12 @@ describe("ships able to receive attacks", () => {
 
 });
 
-describe("location of missed attacks will be added to the missedAttacks array", () => {
+describe("location of missed attacks will be added to missedAttacksArray", () => {
   test("missed attack at (9,9) will be added to array", () => {
     const gameBoard = gameBoardFactory(10, 10, shipFactory)
     gameBoard.receiveAttack(9, 9)
     expect(gameBoard.grid[9][9]).toBe("missed")
-    expect(gameBoard.missedAttacks).toContainEqual({x: 9,y: 9})
+    expect(gameBoard.missedAttacksArray).toContainEqual({x: 9,y: 9})
   })
   test("multiple missed attacks should be registered", () => {
     const gameBoard = gameBoardFactory(10, 10, shipFactory);
@@ -65,8 +65,8 @@ describe("location of missed attacks will be added to the missedAttacks array", 
     gameBoard.receiveAttack(0,0)
     expect(gameBoard.grid[9][9]).toBe("missed");
     expect(gameBoard.grid[0][0]).toBe("missed");
-    expect(gameBoard.missedAttacks).toContainEqual({ x: 0, y: 0 });
-    expect(gameBoard.missedAttacks).toContainEqual({ x: 9, y: 9 });
+    expect(gameBoard.missedAttacksArray).toContainEqual({ x: 0, y: 0 });
+    expect(gameBoard.missedAttacksArray).toContainEqual({ x: 9, y: 9 });
   })
 })
 
