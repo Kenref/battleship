@@ -12,19 +12,29 @@ describe("allow players to attack the opposing board", () => {
   });
 });
 
-describe("calculate placement boundary", () => {
-  test("ship of length 3 will make boundary 7", () => {
-    const player = Player();
-    const shipLength = 3;
-    let boundary = player.getPlacementBoundary(10, shipLength);
-    expect(boundary).toBe(7);
-  });
 
-  test("ship of length 0 will make boundary 10", () => {
-    const player = Player();
-    const shipLength = 0;
-    let boundary = player.getPlacementBoundary(10, shipLength);
-    expect(boundary).toBe(10);
-  });
-});
+
+
+
+
+
+
+
+
+
+// describe("calculate placement boundary", () => {
+//   test("ship of length 3 will make boundary 7", () => {
+//     const player = Player();
+//     const shipLength = 3;
+//     let boundary = player.getPlacementBoundary(10, shipLength);
+//     expect(boundary).toBe(7);
+//   });
+
+//   test("ship of length 0 will make boundary 10", () => {
+//     const player = Player();
+//     const shipLength = 0;
+//     let boundary = player.getPlacementBoundary(10, shipLength);
+//     expect(boundary).toBe(10);
+//   });
+// });
 

@@ -27,6 +27,7 @@ export default function gameBoardFactory(rows,columns,shipFactory) {
       missedAttacksArray.push({x,y})
     } else {
       grid[x][y].hit();
+      //consider adding the coordinates to the hit object
     }
   }
 
@@ -34,6 +35,9 @@ export default function gameBoardFactory(rows,columns,shipFactory) {
     return shipsArray.every(ship => ship.isSunk() === true )
   }
 
+  function isValidAttack(x, y) {
+    return (grid[x][y] === "empty") ? true : false
+  }
 
 
   createGrid(rows,columns)
@@ -45,7 +49,8 @@ export default function gameBoardFactory(rows,columns,shipFactory) {
     createGrid: createGrid,
     placeShip: placeShip,
     receiveAttack: receiveAttack,
-    checkSunkAll: checkSunkAll
+    checkSunkAll: checkSunkAll,
+    isValidAttack: isValidAttack
   };
 
 }

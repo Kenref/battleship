@@ -122,3 +122,24 @@ describe("check that all ships have been sunk", () => {
     expect(gameBoard.checkSunkAll()).toBe(false);
   })
 })
+
+describe("check for valid attacks", () => {
+  test("players should not be able to attack a square that is already missed'", () => {
+    const gameBoard = gameBoardFactory(10, 10, shipFactory)
+    gameBoard.receiveAttack(0, 0)
+    expect(gameBoard.isValidAttack(0,0)).toBe(false)
+  });
+
+  test("players should not be able to attack a square that is already hit", () => {
+    const gameBoard = gameBoardFactory(10, 10, shipFactory)
+    gameBoard.placeShip(0,0,1)
+    gameBoard.receiveAttack(0, 0)
+    expect(gameBoard.isValidAttack(0,0)).toBe(false)
+  })
+
+  test("players should be able to attack a square that is 'empty'", () => {
+    const gameBoard = gameBoardFactory(10, 10, shipFactory)
+    expect(gameBoard.isValidAttack(0,0)).toBe(true)
+  });
+
+})
