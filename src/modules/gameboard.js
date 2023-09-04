@@ -1,7 +1,7 @@
-export default function gameBoardFactory(rows,columns,shipFactory) {
-  const grid = []
-  const missedAttacksArray = []
-  const shipsArray = []
+export default function gameBoardFactory(rows, columns, shipFactory) {
+  const grid = [];
+  const missedAttacksArray = [];
+  const shipsArray = [];
 
   function createGrid(rowLength, columnLength) {
     for (let i = 0; i < rowLength; i++) {
@@ -13,12 +13,12 @@ export default function gameBoardFactory(rows,columns,shipFactory) {
     }
   }
 
-  function placeShip(x, y,shipLength) {
-    const ship = shipFactory(shipLength)
+  function placeShip(x, y, shipLength) {
+    const ship = shipFactory(shipLength);
     for (let i = 0; i < shipLength; i++) {
-      this.grid[x+i][y] = ship
+      this.grid[x + i][y] = ship;
     }
-    this.shipsArray.push(ship)
+    this.shipsArray.push(ship);
   }
 
   // function receiveAttack(x, y) {
@@ -39,33 +39,30 @@ export default function gameBoardFactory(rows,columns,shipFactory) {
       this.missedAttacksArray.push({ x, y });
     } else {
       this.grid[x][y].hit();
-      this.grid[x][y].addHitCoordinates(x, y)
-      console.log(this.grid[x][y].hitCoordinates)
-      //consider adding the coordinates to the hit object
+      this.grid[x][y].addHitCoordinates(x, y);
     }
   }
 
   function checkSunkAll() {
-    return shipsArray.every(ship => ship.isSunk() === true )
+    return shipsArray.every((ship) => ship.isSunk() === true);
   }
 
   function isValidAttack(x, y) {
     if (this.grid[x][y] === "empty") {
-      return true
+      return true;
     } else if (this.grid[x][y] instanceof Object) {
-        // console.log(this.grid[x][y].hitTimes);
-
-        if (this.hitTimes === 0) {
-          return true
-        }
-      
-    } 
-    return false
-    // return (this.grid[x][y] === "empty") ? true : false
+      if (
+        !this.grid[x][y].hitCoordinates.some(
+          (coord) => coord.x === x && coord.y === y,
+        )
+      ) {
+        return true;
+      }
+    }
+    return false;
   }
 
-
-  createGrid(rows,columns)
+  createGrid(rows, columns);
 
   return {
     grid: grid,
@@ -75,7 +72,6 @@ export default function gameBoardFactory(rows,columns,shipFactory) {
     placeShip: placeShip,
     receiveAttack: receiveAttack,
     checkSunkAll: checkSunkAll,
-    isValidAttack: isValidAttack
+    isValidAttack: isValidAttack,
   };
-
 }

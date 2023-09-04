@@ -134,9 +134,10 @@ describe("check for valid attacks", () => {
 
   test("players should not be able to attack a square that is already hit", () => {
     const gameBoard = gameBoardFactory(10, 10, shipFactory)
-    gameBoard.placeShip(0,0,1)
-    gameBoard.receiveAttack(0, 0)
-    expect(gameBoard.isValidAttack(0,0)).toBe(false)
+    gameBoard.placeShip(1,1,1)
+    gameBoard.receiveAttack(1, 1)
+    console.log(gameBoard.grid[1][1])
+    expect(gameBoard.isValidAttack(1,1)).toBe(false)
   })
 
   test("players should be able to attack a square that is 'empty'", () => {

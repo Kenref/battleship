@@ -7,7 +7,7 @@ export default function Player() {
   const landedAttacksArray = []
 
   function attack(x, y, opponentBoard) {
-    console.log(opponentBoard.isValidAttack(x,y))
+    // console.log(opponentBoard.isValidAttack(x,y))
     opponentBoard.receiveAttack(x, y);
   }
 
