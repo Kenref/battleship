@@ -12,7 +12,34 @@ describe("allow players to attack the opposing board", () => {
   });
 });
 
+// describe("test smart attack missing", () => {
+//   const enemyBoard = gameBoardFactory(10, 10, shipFactory);
+//   enemyBoard.placeShip(4, 4, 3);
+//   const player = Player();
+  
+//   test("it will attack a random coordinate every time", () => {
+//     player.smartAttack(enemyBoard, 10)
 
+
+//   })
+
+//   test("if a coordinate has been hit, it will shoot adjacent left,right,up,down until more is hit or all misses", () => {
+
+//   })
+//   test("if the adjacent square is hit it should keep attacking in that direction", () => {
+
+//    });
+  
+  
+// })
+
+// describe("test smart attack hitting", () => {
+//   test("when something is hit it will keep hitting that direction", () => {});
+//   test("if a coordinate has been hit, it will shoot adjacent left", () => {});
+//   test("if adjacent left is empty it will shoot right", () => {});
+//   test("if adjacent right is empty it will shoot up", () => {});
+//   test("if adjacent up is empty it will shoot down", () => {});
+// });
 
 
 
