@@ -13,22 +13,30 @@ describe("allow players to attack the opposing board", () => {
 });
 
 describe("check that function will return false when on the side squares", () => {
+  test("return true when not on edge", () => {
+    const player = Player();
+    expect(player.isNotOnEdge(5, 5)).toEqual(true);
+  });
   test("return false when on the left edge", () => {
     const player = Player()
-    expect(player.isNotOnEdge(0,5)).toBe(false)
+    expect(player.isNotOnEdge(0,5)).toEqual(["left"])
   })
   test("return false when on the right edge", () => {
     const player = Player();
-    expect(player.isNotOnEdge(9, 5)).toBe(false);
+    expect(player.isNotOnEdge(9, 5)).toEqual(["right"]);
   })
   test("return false when on the top edge", () => {
     const player = Player();
-    expect(player.isNotOnEdge(5, 0)).toBe(false);
+    expect(player.isNotOnEdge(5, 0)).toEqual(["bottom"]);
   })
   test("return false when on the buttom edge", () => {
     const player = Player();
-    expect(player.isNotOnEdge(5, 9)).toBe(false);
+    expect(player.isNotOnEdge(5, 9)).toEqual(["top"]);
   })
+  test("return 2 edges", () => {
+    const player = Player();
+    expect(player.isNotOnEdge(0, 0)).toEqual(["left", "bottom"]);
+  });
 })
 
 
