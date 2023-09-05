@@ -21,18 +21,6 @@ export default function gameBoardFactory(rows, columns, shipFactory) {
     this.shipsArray.push(ship);
   }
 
-  // function receiveAttack(x, y) {
-  //   if (this.grid[x][y] === "empty") {
-  //     this.grid[x][y] = "missed"
-  //     this.missedAttacksArray.push({x,y})
-  //   } else {
-  //     this.grid[x][y].hit();
-  //     this.grid.hitCoordinates = x, y
-  //     console.log("hitcoords", this.grid.hitCoordinates);
-  //     //consider adding the coordinates to the hit object
-  //   }
-  // }
-
   function receiveAttack(x, y) {
     if (this.grid[x][y] === "empty") {
       this.grid[x][y] = "missed";

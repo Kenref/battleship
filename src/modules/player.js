@@ -1,13 +1,15 @@
+const boardSize = 10
 
-function getRandomNumber(max) {
-  Math.floor(Math.random() * max);
+function getRandomNumber(boardSize) {
+  return Math.floor(Math.random() * boardSize);
 }
 
 export default function Player() {
-  const landedAttacksArray = []
+  let hitLastTurn = false;
+  let lastTurnDirection
+
 
   function attack(x, y, opponentBoard) {
-    // console.log(opponentBoard.isValidAttack(x,y))
     opponentBoard.receiveAttack(x, y);
   }
 
@@ -15,29 +17,53 @@ export default function Player() {
   //   return gridLength - shipLength
   // }
 
-
-
-
-  //bring in the missed attacks and hit attacks arrays
-  function smartAttack(opponentBoard, boardSize) {
-    const x = getRandomNumber(boardSize)
-    const y = getRandomNumber(boardSize)
-
-    // console.log(opponentBoard.isValidAttack(x,y))
-
-    // if (opponentBoard.isValidAttack(x, y,opponentBoard.grid)) {
-    //   opponentBoard.receiveAttack(x,y)
-    // }
-
+  function isNotOnEdge(x, y) {
+    let edges = ""
+    if (x < 0) {
+      edges + "left"
+    }
+    if (x > boardSize - 1) {
+      edges + "right"
+    }
+    //top and bottom are potentially reversed because of how the grid is made
+    if (y < 0) {
+      edges + "bottom"
+    }
+    if (y > boardSize - 1) {
+      edges + "top"
+    }
   }
-  
 
 
 
+
+
+  function smartAttack(opponentBoard) {
+    let x, y
+    
+    if (!hitLastTurn) {
+      do {
+        x = getRandomNumber(boardSize);
+        y = getRandomNumber(boardSize);
+      } while (!opponentBoard.isValidAttack(x, y));
+      opponentBoard.receiveAttack(x, y);
+      if (opponentBoard.grid[x][y] instanceof Object && opponentBoard.grid[x][y].hitCoordinates.some((coord) => coord.x === x && coord.y === y)) {
+        hitLastTurn = true
+      }
+    }else {
+      if (isNotOnEdge) {
+        
+      }
+    }
+    
+
+    
+  }
 
 
   return {
     attack: attack,
-    smartAttack: smartAttack
+    smartAttack: smartAttack,
+    isNotOnEdge: isNotOnEdge
   };
 }

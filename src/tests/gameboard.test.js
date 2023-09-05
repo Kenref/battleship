@@ -136,7 +136,6 @@ describe("check for valid attacks", () => {
     const gameBoard = gameBoardFactory(10, 10, shipFactory)
     gameBoard.placeShip(1,1,1)
     gameBoard.receiveAttack(1, 1)
-    console.log(gameBoard.grid[1][1])
     expect(gameBoard.isValidAttack(1,1)).toBe(false)
   })
 

@@ -12,26 +12,51 @@ describe("allow players to attack the opposing board", () => {
   });
 });
 
-// describe("test smart attack missing", () => {
-//   const enemyBoard = gameBoardFactory(10, 10, shipFactory);
-//   enemyBoard.placeShip(4, 4, 3);
-//   const player = Player();
+describe("check that function will return false when on the side squares", () => {
+  test("return false when on the left edge", () => {
+    const player = Player()
+    expect(player.isNotOnEdge(0,5)).toBe(false)
+  })
+  test("return false when on the right edge", () => {
+    const player = Player();
+    expect(player.isNotOnEdge(9, 5)).toBe(false);
+  })
+  test("return false when on the top edge", () => {
+    const player = Player();
+    expect(player.isNotOnEdge(5, 0)).toBe(false);
+  })
+  test("return false when on the buttom edge", () => {
+    const player = Player();
+    expect(player.isNotOnEdge(5, 9)).toBe(false);
+  })
+})
+
+
+
+
+
+
+
+
+describe("test smart attack missing", () => {
+  const enemyBoard = gameBoardFactory(10, 10, shipFactory);
+  enemyBoard.placeShip(5, 5, 3);
+  const player = Player();
   
-//   test("it will attack a random coordinate every time", () => {
-//     player.smartAttack(enemyBoard, 10)
+  test("it will attack a random coordinate every time", () => {
+    Math.random = jest.fn(() => 0.5)
+    player.smartAttack(enemyBoard)
+  })
 
+  test("if a coordinate has been hit, it will shoot adjacent left,right,up,down until more is hit or all misses", () => {
 
-//   })
+  })
+  test("if the adjacent square is hit it should keep attacking in that direction", () => {
 
-//   test("if a coordinate has been hit, it will shoot adjacent left,right,up,down until more is hit or all misses", () => {
-
-//   })
-//   test("if the adjacent square is hit it should keep attacking in that direction", () => {
-
-//    });
+   });
   
   
-// })
+})
 
 // describe("test smart attack hitting", () => {
 //   test("when something is hit it will keep hitting that direction", () => {});
