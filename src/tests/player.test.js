@@ -98,13 +98,19 @@ describe("test the attackAdjacent function", () => {
 describe("test smart attack logic", () => {
   // const enemyBoard = gameBoardFactory(10, 10, shipFactory);
   // const player = Player();
-  // Math.random = jest.fn(() => 0.5);
+  const adjacentSquares = [
+    { x: 5, y: 4 },
+    { x: 5, y: 6 },
+    { x: 4, y: 5 },
+    { x: 6, y: 5 },
+  ];
+
+
   
   test("if nothing was hit last turn, it will attack randomly", () => {
     const enemyBoard = gameBoardFactory(10, 10, shipFactory);
     const player = Player();
     enemyBoard.placeShip(5, 5, 3);
-    player.hitLastTurn = false
     Math.random = jest.fn(() => 0.5)
     player.smartAttack(enemyBoard)
     expect(enemyBoard.grid[5][5].hitTimes).toBe(1)
@@ -114,11 +120,16 @@ describe("test smart attack logic", () => {
     const enemyBoard = gameBoardFactory(10, 10, shipFactory);
     const player = Player();
     enemyBoard.placeShip(5, 5, 3);
+    enemyBoard.placeShip(5, 6, 1);
+    enemyBoard.placeShip(5, 4, 1);
     player.attack(5,5,enemyBoard)
     player.hitLastTurn = true
-    console.log(enemyBoard.grid[5][5].hitCoordinates);
-    player.smartAttack(enemyBoard);
-    console.log(enemyBoard.grid[5][5].hitCoordinates);
+    player.smartAttack(enemyBoard)
+    const adjacentHit = adjacentSquares.some(
+      (square) => enemyBoard.grid[square.x][square.y] === "hit",
+    );
+    console.log(adjacentHit)
+    expect(adjacentHit).toBe(true)
   })
   // test("if the adjacent square was hit this turn, it should shoot in the same direction", () => {
   //   enemyBoard.placeShip(5, 5, 3);
