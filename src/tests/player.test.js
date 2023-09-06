@@ -27,52 +27,117 @@ describe("check that function will return false when on the side squares", () =>
   })
   test("return false when on the top edge", () => {
     const player = Player();
-    expect(player.isNotOnEdge(5, 0)).toEqual(["bottom"]);
+    expect(player.isNotOnEdge(5, 0)).toEqual(["down"]);
   })
   test("return false when on the buttom edge", () => {
     const player = Player();
-    expect(player.isNotOnEdge(5, 9)).toEqual(["top"]);
+    expect(player.isNotOnEdge(5, 9)).toEqual(["up"]);
   })
   test("return 2 edges", () => {
     const player = Player();
-    expect(player.isNotOnEdge(0, 0)).toEqual(["left", "bottom"]);
+    expect(player.isNotOnEdge(0, 0)).toEqual(["left", "down"]);
+  });
+})
+
+describe("test adjacentSides function", () => {
+  test("unavailable up returns left right down", () => {
+    const player = Player();
+    const availableSides = player.getAvailableSides(["up"])
+    expect(availableSides).toEqual(["down", "left", "right"]);
+  });
+  test("2 unavailable sides", () => {
+    const player = Player()
+    const availableSides = player.getAvailableSides(["left", "down"])
+    expect(availableSides).toEqual(["up", "right"])
+  })
+});
+
+describe("testing getNextHitDirection function", () => {
+  test("unavailable up returns left right down", () => {
+    const player = Player();
+    const availableSides = player.getAvailableSides(["up"]);
+    expect(availableSides).toEqual(["down", "left", "right"]);
+  });
+  test("2 unavailable sides", () => {
+    const player = Player();
+    const availableSides = player.getAvailableSides(["left", "down"]);
+    expect(availableSides).toEqual(["up", "right"]);
+  });
+});
+
+describe("takes the side in words and converts it to a int", () => {
+  test("unavailable up returns left right down", () => {
+    const player = Player();
+    const availableSides = player.getAvailableSides(["up"]);
+    expect(availableSides).toEqual(["down", "left", "right"]);
+  });
+  test("2 unavailable sides", () => {
+    const player = Player();
+    const availableSides = player.getAvailableSides(["left", "down"]);
+    expect(availableSides).toEqual(["up", "right"]);
+  });
+});
+
+describe("test the attackAdjacent function", () => {
+  const enemyBoard = gameBoardFactory(10, 10, shipFactory)
+  enemyBoard.placeShip(4, 5, 3)
+  const player = Player()
+  
+  test("attack to the left of 5,5 which is 4,5", () => {
+    player.attackAdjacent(5, 5, "left", enemyBoard);
+    expect(enemyBoard.grid[4][5].hitCoordinates).toContainEqual({x:4, y:5})
+  })
+  test("attack to the right of 5,5 which is 6,5", () => {
+    player.attackAdjacent(5, 5, "right", enemyBoard);
+    expect(enemyBoard.grid[6][5].hitCoordinates).toContainEqual({ x: 6, y: 5 });
   });
 })
 
 
 
-
-
-
-
-
-describe("test smart attack missing", () => {
-  const enemyBoard = gameBoardFactory(10, 10, shipFactory);
-  enemyBoard.placeShip(5, 5, 3);
-  const player = Player();
+describe("test smart attack logic", () => {
+  // const enemyBoard = gameBoardFactory(10, 10, shipFactory);
+  // const player = Player();
+  // Math.random = jest.fn(() => 0.5);
   
-  test("it will attack a random coordinate every time", () => {
+  test("if nothing was hit last turn, it will attack randomly", () => {
+    const enemyBoard = gameBoardFactory(10, 10, shipFactory);
+    const player = Player();
+    enemyBoard.placeShip(5, 5, 3);
+    player.hitLastTurn = false
     Math.random = jest.fn(() => 0.5)
     player.smartAttack(enemyBoard)
+    expect(enemyBoard.grid[5][5].hitTimes).toBe(1)
   })
 
-  test("if a coordinate has been hit, it will shoot adjacent left,right,up,down until more is hit or all misses", () => {
-
+  test("if player was hit last turn, it should hit an adjacent square this turn", () => {
+    const enemyBoard = gameBoardFactory(10, 10, shipFactory);
+    const player = Player();
+    enemyBoard.placeShip(5, 5, 3);
+    player.attack(5,5,enemyBoard)
+    player.hitLastTurn = true
+    console.log(enemyBoard.grid[5][5].hitCoordinates);
+    player.smartAttack(enemyBoard);
+    console.log(enemyBoard.grid[5][5].hitCoordinates);
   })
-  test("if the adjacent square is hit it should keep attacking in that direction", () => {
-
-   });
-  
-  
+  // test("if the adjacent square was hit this turn, it should shoot in the same direction", () => {
+  //   enemyBoard.placeShip(5, 5, 3);
+  //   player.attack(5, 5, enemyBoard);
+  //   player.hitLastTurn = true;
+  //   player.smartAttack(enemyBoard)
+  // });
+  test("if the adjacent square missed, then it will shoot another adjacent square until all valid adjacent squares have been shot", () => {});
 })
 
-// describe("test smart attack hitting", () => {
-//   test("when something is hit it will keep hitting that direction", () => {});
-//   test("if a coordinate has been hit, it will shoot adjacent left", () => {});
-//   test("if adjacent left is empty it will shoot right", () => {});
-//   test("if adjacent right is empty it will shoot up", () => {});
-//   test("if adjacent up is empty it will shoot down", () => {});
-// });
+describe("test smart attack hitting", () => {
+  test("when something is hit it will keep hitting that direction", () => {
+
+  });
+  test("if a coordinate has been hit, it will shoot adjacent left", () => {});
+  test("if adjacent left is empty it will shoot right", () => {});
+  test("if adjacent right is empty it will shoot up", () => {});
+  test("if adjacent up is empty it will shoot down", () => {});
+});
 
 
 
