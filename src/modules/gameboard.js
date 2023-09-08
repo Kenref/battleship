@@ -36,6 +36,9 @@ export default function gameBoardFactory(rows, columns, shipFactory) {
   }
 
   function isValidAttack(x, y) {
+    if (x < 0 || y < 0 || x >= this.grid.length || y >= this.grid[0].length) {
+      return false;
+    }
     if (this.grid[x][y] === "empty") {
       return true;
     } else if (this.grid[x][y] instanceof Object) {

@@ -3,66 +3,22 @@ const boardSize = 10;
 function getRandomNumber(boardSize) {
   return Math.floor(Math.random() * boardSize);
 }
-// return true if not touching edges otherwise return edges
-function isNotOnEdge(x, y) {
-  let edges = [];
-  if (x <= 0) {
-    edges.push("left");
-  }
-  if (x >= boardSize - 1) {
-    edges.push("right");
-  }
-  //top and bottom are potentially reversed because of how the grid is made
-  if (y <= 0) {
-    edges.push("down");
-  }
-  if (y >= boardSize - 1) {
-    edges.push("up");
-  }
-  if (edges.length === 0) {
-    return true;
-  } else {
-    return edges;
-  }
-}
-// return available sides if given unavailable sides
-function getAvailableSides(unavailableSidesArray) {
-  const allDirections = ["up", "down", "left", "right"];
-  const availableSides = allDirections.filter(
-    (direction) => !unavailableSidesArray.includes(direction),
-  );
-  return availableSides;
-}
 
-function getNextHitDirection(availableSides, lastHitDirection, exclusion = null) {
-  let nextHit;
 
-  if (exclusion) {
-    availableSides = availableSides.filter((side) => side !== exclusion);
-  }
-
-  if ((lastHitDirection === null)) {
-    const randomIndex = Math.floor(Math.random() * availableSides.length);
-    nextHit = availableSides[randomIndex];
-    lastHitDirection = nextHit;
-    return nextHit;
-  } else {
-    return lastHitDirection;
-  }
-}
-
-function attackAdjacent(x, y, direction, opponentBoard) {
-  // console.log("before", opponentBoard.grid[x][y].hitCoordinates);
+function getAdjacentCoordinates(x, y, direction) {
   if (direction === "left") {
-    opponentBoard.receiveAttack(x-1,y)
+    // console.log({ x: x - 1, y: y }, "left");
+    return {x: x-1, y: y}
   } else if (direction === "right") {
-    opponentBoard.receiveAttack(x+1, y);
+    // console.log({ x: x + 1, y: y }, "right");
+    return { x: x + 1, y: y };
   } else if (direction === "up") {
-    opponentBoard.receiveAttack(x, y+1);
+    // console.log({ x: x, y: y + 1 }, "up");
+    return { x: x, y: y  + 1};
   } else if (direction === "down") {
-    opponentBoard.receiveAttack(x, y-1);
+    // console.log({ x: x, y: y - 1 }, "down");
+    return { x: x, y: y - 1 };
   }
-  // console.log("after",opponentBoard.grid[x][y].hitCoordinates);
 }
 
 function successfulHit(x, y, opponentBoard) {
@@ -72,10 +28,15 @@ function successfulHit(x, y, opponentBoard) {
   return false
 }
 
+function getRandomSide() {
+  const directions = ["up", "down", "left", "right"]
+  return directions[Math.floor(Math.random() * 4)]
+}
+
 export default function Player() {
   let hitLastTurn = false;
   let lastHitDirection = null;
-  let lastHitCoordinates = null
+  let lastHitCoordinates = {}
 
   function attack(x, y, opponentBoard) {
     opponentBoard.receiveAttack(x, y);
@@ -136,8 +97,7 @@ export default function Player() {
 
   function smartAttack(opponentBoard) {
       let x, y;
-
-      if (!hitLastTurn && lastHitCoordinates === null && lastHitDirection === null) {
+      if (!hitLastTurn && lastHitDirection === null) {
         do {
           x = getRandomNumber(boardSize);
           y = getRandomNumber(boardSize);
@@ -146,27 +106,34 @@ export default function Player() {
         opponentBoard.receiveAttack(x, y);
         if (successfulHit(x, y, opponentBoard)) {
           hitLastTurn = true
-          lastHitCoordinates = {x,y}
+          lastHitCoordinates.x = x
+          lastHitCoordinates.y = y
         }
       } else {
-        if (lastHitCoordinates === null) {
+        x = lastHitCoordinates.x
+        y = lastHitCoordinates.y
+        if (lastHitDirection === null) {
+          let randomAdjacentCoordinates;
+          do {
+            lastHitDirection = getRandomSide()
+            randomAdjacentCoordinates = getAdjacentCoordinates(x, y, lastHitDirection)
+          } while (!opponentBoard.isValidAttack(randomAdjacentCoordinates.x, randomAdjacentCoordinates.y));
+          opponentBoard.receiveAttack(randomAdjacentCoordinates.x, randomAdjacentCoordinates.y);
+
           
         }
       }
-    
     
     }
 
   return {
     attack: attack,
     smartAttack: smartAttack,
-    isNotOnEdge: isNotOnEdge,
-    getAvailableSides: getAvailableSides,
-    getNextHitDirection: getNextHitDirection,
-    attackAdjacent: attackAdjacent,
     hitLastTurn: hitLastTurn,
     lastHitDirection: lastHitDirection,
-    successfulHit: successfulHit
+    lastHitCoordinates: lastHitCoordinates,
+    successfulHit: successfulHit,
+    getAdjacentCoordinates: getAdjacentCoordinates
   };
 }
 // if first time hitting a ship
