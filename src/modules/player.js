@@ -44,61 +44,22 @@ export default function Player() {
     opponentBoard.receiveAttack(x, y);
   }
 
-  // function getPlacementBoundary(gridLength, shipLength) {
-  //   return gridLength - shipLength
-  // }
-
-  // function smartAttack(opponentBoard) {
-  //   let x, y;
-
-  //   if (!hitLastTurn && lastHitCoordinates === null && lastHitDirection === null) {
-  //     do {
-  //       x = getRandomNumber(boardSize);
-  //       y = getRandomNumber(boardSize);
-  //     } while (!opponentBoard.isValidAttack(x, y));
-
-  //     opponentBoard.receiveAttack(x, y);
-  //     if (successfulHit(x, y, opponentBoard)) {
-  //       hitLastTurn = true
-  //       lastHitCoordinates = {x,y}
-  //     }
-  //   }
-  //   // this is for the first time something is hit
-  //   else if (hitLastTurn) {
-  //     //if last turn was a hit - this turn choose a random direction to hit
-  //     if (lastHitDirection === null) {
-  //       if (isNotOnEdge(x,y)) {
-  //         lastHitDirection = getNextHitDirection(["up", "down", "left", "right"], lastHitDirection)
-  //         attackAdjacent(lastHitCoordinates.x, lastHitCoordinates.y, lastHitDirection, opponentBoard)
-  //       } else {
-  //         const edges = isNotOnEdge(x,y)
-  //         lastHitDirection = getNextHitDirection(edges, lastHitDirection)
-  //         attackAdjacent(lastHitCoordinates.x, lastHitCoordinates.y, lastHitDirection, opponentBoard)
-  //       }
-  //       hitLastTurn = successfulHit(x, y, opponentBoard);
-  //     } else {  // if we shot in a direction from x,y last turn
-        
-        
-  //       //if hit and if no hit
-
-
-  //       //if last turn was a miss - go back to original and check other sides randomly
-  //       //else if last turn was a hit keep going that direction until sunk
-  //     }
-
-  //     // approach right now is to get the edges first, then pick a random side to strike that is not on the edge, then random again
-  //     //need to check that the square is a valid sqiare
-  //   } else if (!hitLastTurn && lastHitDirection !== null) {
-  //     let currentHitDirection = getNextHitDirection(["up", "down", "left", "right"], null, lastHitDirection);
-  //     attackAdjacent(lastHitCoordinates.x, lastHitCoordinates.y, currentHitDirection, opponentBoard);
-  //     lastHitDirection = currentHitDirection
-  //     hitLastTurn = successfulHit(lastHitCoordinates.x, lastHitCoordinates.y, opponentBoard);
-  //   }
-  //   // remember if something misses reset last hit turn and last hit direction
-  // }
-
   function smartAttack(opponentBoard) {
-      let x, y;
+    let x, y;
+    
+    if (
+      lastHitCoordinates.x !== undefined &&
+      opponentBoard.grid[lastHitCoordinates.x][lastHitCoordinates.y] &&
+      opponentBoard.grid[lastHitCoordinates.x][
+        lastHitCoordinates.y
+      ].isSunk() === true
+    ) {
+      console.log("ship sunk");
+      lastHitDirection = null;
+      lastHitCoordinates = {};
+      hitLastTurn = false;
+    }
+
       if (!hitLastTurn && lastHitDirection === null) {
         do {
           x = getRandomNumber(boardSize);
@@ -150,11 +111,3 @@ export default function Player() {
     getAdjacentCoordinates: getAdjacentCoordinates
   };
 }
-// if first time hitting a ship
-// check if it is touching any sides
-//    if it is then find the available sides
-//      find a random side from the available to hit
-//    if it is not then find a random side to strike next
-
-// if last turn was a hit, keep hitting the same direction
-// if last turn was not a hit, hit another random direction from original hit (available) instead
