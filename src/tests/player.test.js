@@ -86,6 +86,21 @@ describe("test smart attack logic", () => {
           enemyBoard.grid[5][6].isSunk() === true
       ).toBe(true);
     });
+  
+  test("if there are no available adjacent squares, go back to attacking randomly", () => {
+    const enemyBoard = gameBoardFactory(10, 10, shipFactory);
+    const player = Player();
+    enemyBoard.placeShip(0, 0, 1);
+    // enemyBoard.grid[0][1] = "missed"
+    // enemyBoard.grid[1][0] = "missed";    
+
+    Math.random = jest.fn(() => 0);
+    player.smartAttack(enemyBoard);
+    Math.random = originalMathRandom
+    player.smartAttack(enemyBoard);
+    console.log(enemyBoard.missedAttacksArray)
+    
+  });
 });
 
 // describe("test smart attack logic", () => {

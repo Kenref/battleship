@@ -33,6 +33,8 @@ function getRandomSide() {
   return directions[Math.floor(Math.random() * 4)]
 }
 
+
+
 export default function Player() {
   let hitLastTurn = false;
   let lastHitDirection = null;
@@ -102,25 +104,37 @@ export default function Player() {
           x = getRandomNumber(boardSize);
           y = getRandomNumber(boardSize);
         } while (!opponentBoard.isValidAttack(x, y));
-
         opponentBoard.receiveAttack(x, y);
         if (successfulHit(x, y, opponentBoard)) {
           hitLastTurn = true
           lastHitCoordinates.x = x
           lastHitCoordinates.y = y
         }
-      } else {
+      }
+      else {
         x = lastHitCoordinates.x
         y = lastHitCoordinates.y
+
         if (lastHitDirection === null) {
           let randomAdjacentCoordinates;
+          let unavailableCoordinates = new Set()
           do {
             lastHitDirection = getRandomSide()
+            if (unavailableCoordinates.size === 4) {
+              lastHitDirection = null
+              lastHitCoordinates = {}
+              hitLastTurn = false
+              return smartAttack(opponentBoard)
+            }
+            unavailableCoordinates.add(lastHitDirection)
             randomAdjacentCoordinates = getAdjacentCoordinates(x, y, lastHitDirection)
           } while (!opponentBoard.isValidAttack(randomAdjacentCoordinates.x, randomAdjacentCoordinates.y));
+
           opponentBoard.receiveAttack(randomAdjacentCoordinates.x, randomAdjacentCoordinates.y);
 
-          
+          if (!successfulHit(randomAdjacentCoordinates.x, randomAdjacentCoordinates.y,opponentBoard)) {
+            hitLastTurn = false
+          }
         }
       }
     
