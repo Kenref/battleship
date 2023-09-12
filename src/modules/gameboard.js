@@ -1,3 +1,15 @@
+function checkWithinBoundary(x,y,shipLength,gridLength, orientation) {
+  if (orientation === "horizontal" && shipLength <= gridLength - x) {
+    return true
+  }
+  else if (orientation === "vertical" && shipLength <= gridLength - y) {
+    return true
+  }
+  else {
+    return false
+  }
+}
+
 export default function gameBoardFactory(rows, columns, shipFactory) {
   const grid = [];
   const missedAttacksArray = [];
@@ -13,13 +25,31 @@ export default function gameBoardFactory(rows, columns, shipFactory) {
     }
   }
 
-  function placeShip(x, y, shipLength) {
+  function placeShip(x, y, shipLength, orientation = "horizontal") {
     const ship = shipFactory(shipLength);
     for (let i = 0; i < shipLength; i++) {
-      this.grid[x + i][y] = ship;
+      if (orientation === "horizontal") {
+        this.grid[x + i][y] = ship;
+      } else if (orientation === "vertical") {
+        this.grid[x][y + i] = ship;
+      }
     }
-    this.shipsArray.push(ship);
+    shipsArray.push(ship);
   }
+
+  function checkBoundaryAndPlaceShip(x, y, shipLength, orientation) {
+    const boardSize = this.grid.length
+    if (
+      checkWithinBoundary(x, y, shipLength, boardSize, orientation) === false
+    ) {
+      throw new Error("Ship is being placed outside the board");
+    }
+    this.placeShip(x, y, shipLength, orientation);
+  }
+
+
+
+
 
   function receiveAttack(x, y) {
     if (this.grid[x][y] === "empty") {
@@ -64,5 +94,6 @@ export default function gameBoardFactory(rows, columns, shipFactory) {
     receiveAttack: receiveAttack,
     checkSunkAll: checkSunkAll,
     isValidAttack: isValidAttack,
+    checkBoundaryAndPlaceShip: checkBoundaryAndPlaceShip
   };
 }

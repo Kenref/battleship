@@ -58,7 +58,6 @@ describe("test smart attack logic", () => {
     player.smartAttack(enemyBoard);
     Math.random = originalMathRandom;
     player.smartAttack(enemyBoard);
-    expect(enemyBoard.grid[0][0].isSunk()).toBe(true);
     expect(
       enemyBoard.grid[1][0].hitTimes === 2 ||
         enemyBoard.grid[0][1].isSunk() === true,

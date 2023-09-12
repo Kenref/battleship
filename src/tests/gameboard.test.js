@@ -31,7 +31,26 @@ describe("place ships at specific coordinates", () => {
     expect(gameBoard.grid[0][0].length).toBe(2);
     expect(gameBoard.grid[1][0].length).toBe(2);
   });
+  test("place a ship vertically at (0,0)", () => {
+    const gameBoard = gameBoardFactory(10, 10, shipFactory);
+    gameBoard.placeShip(0, 0, 2, "vertical");
+    expect(gameBoard.grid[0][0].length).toBe(2);
+    expect(gameBoard.grid[0][1].length).toBe(2);
+  });
 });
+
+describe("test for valid ship placement", () => {
+    test("place a ship at (0,0)", () => {
+      const gameBoard = gameBoardFactory(10, 10, shipFactory);
+      gameBoard.checkBoundaryAndPlaceShip(0, 0, 2, "horizontal");
+      expect(gameBoard.grid[0][0].length).toBe(2);
+      expect(gameBoard.grid[1][0].length).toBe(2);
+    });
+    test("return an error if ships are placed outside the board boundary", () => {
+      const gameBoard = gameBoardFactory(10, 10, shipFactory);
+      expect(() => gameBoard.checkBoundaryAndPlaceShip(9, 9, 2)).toThrow("Ship is being placed outside the board");
+    });
+})
 
 describe("ships able to receive attacks", () => {
   test("the ship at (0,0) will receive an attack", () => {

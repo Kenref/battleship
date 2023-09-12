@@ -1,5 +1,4 @@
 const boardSize = 10;
-//get a random number from 0 to boardsize
 function getRandomNumber(boardSize) {
   return Math.floor(Math.random() * boardSize);
 }
@@ -7,16 +6,12 @@ function getRandomNumber(boardSize) {
 
 function getAdjacentCoordinates(x, y, direction) {
   if (direction === "left") {
-    // console.log({ x: x - 1, y: y }, "left");
     return {x: x-1, y: y}
   } else if (direction === "right") {
-    // console.log({ x: x + 1, y: y }, "right");
     return { x: x + 1, y: y };
   } else if (direction === "up") {
-    // console.log({ x: x, y: y + 1 }, "up");
     return { x: x, y: y  + 1};
   } else if (direction === "down") {
-    // console.log({ x: x, y: y - 1 }, "down");
     return { x: x, y: y - 1 };
   }
 }
@@ -54,7 +49,6 @@ export default function Player() {
         lastHitCoordinates.y
       ].isSunk() === true
     ) {
-      console.log("ship sunk");
       lastHitDirection = null;
       lastHitCoordinates = {};
       hitLastTurn = false;
@@ -108,6 +102,7 @@ export default function Player() {
     lastHitDirection: lastHitDirection,
     lastHitCoordinates: lastHitCoordinates,
     successfulHit: successfulHit,
-    getAdjacentCoordinates: getAdjacentCoordinates
+    getAdjacentCoordinates: getAdjacentCoordinates,
+    boardSize: boardSize
   };
 }
