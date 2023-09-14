@@ -50,6 +50,18 @@ describe("test for valid ship placement", () => {
       const gameBoard = gameBoardFactory(10, 10, shipFactory);
       expect(() => gameBoard.checkBoundaryAndPlaceShip(9, 9, 2)).toThrow("Ship is being placed outside the board");
     });
+      test("return an error if ships are placed outside the board boundary vertically", () => {
+        const gameBoard = gameBoardFactory(10, 10, shipFactory);
+        expect(() => gameBoard.checkBoundaryAndPlaceShip(9, 9, 2, "vertical")).toThrow(
+          "Ship is being placed outside the board",
+        );
+      });
+  test("return an error if ships are placed outside the board boundary vertically", () => {
+    const gameBoard = gameBoardFactory(10, 10, shipFactory);
+    expect(() =>
+      gameBoard.checkBoundaryAndPlaceShip(7, 7, 4, "vertical"),
+    ).toThrow("Ship is being placed outside the board");
+  });
 })
 
 describe("ships able to receive attacks", () => {
