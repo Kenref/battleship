@@ -1,5 +1,4 @@
-import {shipFactory} from "./modules/ships-factory.js";
-import { gameBoardFactory } from "./modules/gameboard.js";
+import shipFactory from "./modules/ships-factory"
+import gameBoardFactory from "./modules/gameboard"
 import "./style.css"
 
-let isPlayerTurn = true

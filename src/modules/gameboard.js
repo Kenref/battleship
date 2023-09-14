@@ -1,4 +1,4 @@
-function checkWithinBoundary(x,y,shipLength,gridLength, orientation) {
+function checkWithinBoundary(x, y, shipLength, gridLength, orientation) {
   if (orientation === "horizontal" && shipLength <= gridLength - x) {
     return true
   }
@@ -47,8 +47,13 @@ export default function gameBoardFactory(rows, columns, shipFactory) {
     this.placeShip(x, y, shipLength, orientation);
   }
 
+  // function placeAiShip(length) {
+  //   const ship = shipFactory(length)
+  //   const boardSize = this.grid.length
+  //   const orientation = Math.random() < 0.5 ? "horizontal" : "vertical"
 
 
+  // }
 
 
   function receiveAttack(x, y) {
@@ -94,6 +99,7 @@ export default function gameBoardFactory(rows, columns, shipFactory) {
     receiveAttack: receiveAttack,
     checkSunkAll: checkSunkAll,
     isValidAttack: isValidAttack,
-    checkBoundaryAndPlaceShip: checkBoundaryAndPlaceShip
+    checkBoundaryAndPlaceShip: checkBoundaryAndPlaceShip,
+    placeAiShip: placeAiShip
   };
 }

@@ -154,8 +154,6 @@ describe("check that all ships have been sunk", () => {
   })
 })
 
-
-
 describe("check for valid attacks", () => {
   test("players should not be able to attack a square that is already missed'", () => {
     const gameBoard = gameBoardFactory(10, 10, shipFactory)
