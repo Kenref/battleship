@@ -37,13 +37,15 @@ export default function gameBoardFactory(rows, columns, shipFactory) {
     shipsArray.push(ship);
   }
 
-  function checkBoundaryAndPlaceShip(x, y, shipLength, orientation) {
+  function checkAndPlaceShip(x, y, shipLength, orientation="horizontal") {
     const boardSize = this.grid.length
+
     if (
       checkWithinBoundary(x, y, shipLength, boardSize, orientation) === false
     ) {
       throw new Error("Ship is being placed outside the board");
     }
+
     this.placeShip(x, y, shipLength, orientation);
   }
 
@@ -99,7 +101,7 @@ export default function gameBoardFactory(rows, columns, shipFactory) {
     receiveAttack: receiveAttack,
     checkSunkAll: checkSunkAll,
     isValidAttack: isValidAttack,
-    checkBoundaryAndPlaceShip: checkBoundaryAndPlaceShip,
-    placeAiShip: placeAiShip
+    checkAndPlaceShip: checkAndPlaceShip,
+    // placeAiShip: placeAiShip
   };
 }

@@ -1,0 +1,33 @@
+#main-container {
+  background-color: azure;
+  display: flex;
+  justify-content: space-around;
+}
+
+.board {
+  width: 500px;
+  height: 500px;
+  border: solid red 1px;
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  grid-template-rows: repeat(10, 1fr);
+}
+
+.cell {
+
+  border: solid red 1px;
+}
+
+.cell:hover {
+  background-color: lightgrey;
+}
+
+.ship {
+  background-color: blue;
+}
+.hit {
+  background-color: red;
+}
+.miss {
+  background-color: gray;
+}
