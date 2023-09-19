@@ -10,6 +10,22 @@ function checkWithinBoundary(x, y, shipLength, gridLength, orientation) {
   }
 }
 
+function checkForOverlap(x, y, shipLength, orientation) {
+  for (let i = 0; i < shipLength; i++){
+    let cell
+    if (orientation === "horizontal") {
+      cell = this.grid[x+i][y]
+    } else if (orientation === "vertical") {
+      cell = this.grid[x][y+i]
+    }
+
+    if (cell instanceof Object) {
+      return true
+    }
+  }
+  return false
+}
+
 export default function gameBoardFactory(rows, columns, shipFactory) {
   const grid = [];
   const missedAttacksArray = [];
@@ -29,9 +45,9 @@ export default function gameBoardFactory(rows, columns, shipFactory) {
     const ship = shipFactory(shipLength);
     for (let i = 0; i < shipLength; i++) {
       if (orientation === "horizontal") {
-        this.grid[x + i][y] = ship;
-      } else if (orientation === "vertical") {
         this.grid[x][y + i] = ship;
+      } else if (orientation === "vertical") {
+        this.grid[x + i][y] = ship;
       }
     }
     shipsArray.push(ship);
@@ -39,13 +55,14 @@ export default function gameBoardFactory(rows, columns, shipFactory) {
 
   function checkAndPlaceShip(x, y, shipLength, orientation="horizontal") {
     const boardSize = this.grid.length
-
+    if (checkForOverlap.call(this,x,y,shipLength,orientation) === true) {
+      throw new Error("Ships are being overlapped")
+    }
     if (
       checkWithinBoundary(x, y, shipLength, boardSize, orientation) === false
     ) {
       throw new Error("Ship is being placed outside the board");
     }
-
     this.placeShip(x, y, shipLength, orientation);
   }
 
